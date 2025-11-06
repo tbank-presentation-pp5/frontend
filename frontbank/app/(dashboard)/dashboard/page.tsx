@@ -1,24 +1,29 @@
 "use client";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { usePromptStore, page } from "@/store/usePromptStore";
 import FieldButton from "@/components/dashboard/field-button";
+import { Scratch } from "@/components/dashboard/scratch-opt";
 
 export default function Dashboard() {
-  const params = useSearchParams();
-  const [mode, setMode] = useState<string | null>(params.get("option"));
+  const { page, setPage } = usePromptStore();
+
+  const handleBack = () => {
+    setPage("create");
+  };
 
   const RenderContent = () => {
-    switch (mode) {
-      case "scratch":
-        return <div>SCRATCH</div>;
+    switch (page) {
+      case "create":
+        return <Choices setPage={setPage} />;
+      case "ai":
+        return <Scratch onBack={handleBack} />;
       case "file":
         return <div>FILE</div>;
       case "text":
         return <div>TEXT</div>;
       default:
-        return <Choices setMode={setMode} />;
+        return null;
     }
   };
 
@@ -33,7 +38,7 @@ export default function Dashboard() {
   );
 }
 
-export function Choices({ setMode }: { setMode: (mode: string) => void }) {
+export function Choices({ setPage }: { setPage: (page: page) => void }) {
   return (
     <div>
       <div className="text-center mb-16">
@@ -50,7 +55,7 @@ export function Choices({ setMode }: { setMode: (mode: string) => void }) {
             h1: "Сгенерируйте",
             text: "Напишите тему презентации, ИИ сделает все остальное",
           }}
-          onClick={() => setMode("scratch")}
+          onClick={() => setPage("ai")}
         />
         <FieldButton
           cardProps={{
@@ -58,7 +63,7 @@ export function Choices({ setMode }: { setMode: (mode: string) => void }) {
             h1: "Загрузите файл",
             text: "Загрузите файл со своей системы или гугл диска",
           }}
-          onClick={() => setMode("file")}
+          onClick={() => setPage("file")}
         />
         <FieldButton
           cardProps={{
@@ -66,7 +71,7 @@ export function Choices({ setMode }: { setMode: (mode: string) => void }) {
             h1: "Вставьте текст",
             text: "Файл не открывается? Вставьте его содержимое",
           }}
-          onClick={() => setMode("text")}
+          onClick={() => setPage("text")}
         />
       </div>
     </div>

@@ -29,6 +29,16 @@ export const Neue_Sans = localFont({
       weight: '400',
       style: 'normal',
     },
+    {
+      path: './neue/NeueMedium.ttf',
+      weight: '500',
+      style: 'medium',
+    },
+    {
+      path: './neue/NeueLight.ttf',
+      weight: '300',
+      style: 'light',
+    },
   ],
   variable: '--font-neue',
   display: 'swap',
