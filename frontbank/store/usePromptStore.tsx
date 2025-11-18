@@ -1,12 +1,6 @@
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
-
-export type page = "create" | "ai" | "text" | "file";
-
-type PromptStore = {
-  page: page;
-  setPage: (page: page) => void;
-};
+import { PromptStore, page } from "@/services/types"
 
 export const usePromptStore = create<PromptStore>()(
   devtools(

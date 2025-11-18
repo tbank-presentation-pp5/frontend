@@ -9,16 +9,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        yellow: "bg-accent rounded-xl hover:bg-[#FFCD33] active:bg-[#FAB619]",
+        yellow: "bg-accent rounded-xl hover:bg-accent_hover active:bg-accent_active",
         white: "bg-accent2 rounded-lg hover:bg-[#F6F7F8] active:bg-[#EAECEE]",
         close: "",
-        next: "",
+        next: "bg-accent rounded-lg hover:bg-accent_hover disabled:bg-secondary active:bg-accent_active",
       },
       size: {
         yellow: "py-3.5 px-4 min-w-[134px]",
         white: "py-3 px-4",
         close: "",
-        next: "",
+        next: "size-14",
       },
     },
     defaultVariants: {

@@ -1,15 +1,23 @@
 "use client";
-import Header from "@/components/ui/header";
-import Footer from "@/components/ui/footer";
-import { usePromptStore, page } from "@/store/usePromptStore";
+import { usePromptStore } from "@/store/usePromptStore";
 import FieldButton from "@/components/dashboard/field-button";
 import { Scratch } from "@/components/dashboard/scratch-opt";
+import { Import } from "@/components/dashboard/import-opt";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { page } from "@/services/types";
+import { Toaster } from "sonner";
 
 export default function Dashboard() {
+  const router = useRouter();
   const { page, setPage } = usePromptStore();
 
   const handleBack = () => {
-    setPage("create");
+    if (page === "create") {
+      router.push("/");
+    } else {
+      setPage("create");
+    }
   };
 
   const RenderContent = () => {
@@ -17,9 +25,9 @@ export default function Dashboard() {
       case "create":
         return <Choices setPage={setPage} />;
       case "ai":
-        return <Scratch onBack={handleBack} />;
+        return <Scratch />;
       case "file":
-        return <div>FILE</div>;
+        return <Import />;
       case "text":
         return <div>TEXT</div>;
       default:
@@ -28,12 +36,17 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex flex-col justify-end min-h-screen">
-      <Header />
-      <div className="mx-auto mt-28 mb-60 h-max p-4">
+    <div className="flex flex-col min-h-screen">
+      <div
+        className="fixed right-8 top-8 rounded-full w-14 h-14 bg-secondary flex justify-center cursor-pointer"
+        onClick={handleBack}
+      >
+        <Image src={"/X.svg"} width={24} height={24} alt="" />
+      </div>
+      <div className="mx-auto mt-32 h-max p-4">
         <RenderContent></RenderContent>
       </div>
-      <Footer />
+      <Toaster/>
     </div>
   );
 }
