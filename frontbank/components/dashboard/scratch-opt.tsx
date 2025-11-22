@@ -25,24 +25,15 @@ export const Scratch = () => {
   const router = useRouter();
 
   const handleSubmit = async () => {
-    if (!prompt.trim()) {
-      toast.error("Введите название презентации");
-      setPrompt("");
-      return;
-    }
-
     setIsLoading(true);
 
-    setTimeout(() => {setIsLoading(false)}, 3000);
-
-
-    // try {
-    //   await setTimeout(() => {}, 3000);
-    // } catch (error) {
-    //   toast.error("Ошибка создания презентации");
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    try {
+      await Prompt(prompt, router);
+      setPrompt("");
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (isLoading) {

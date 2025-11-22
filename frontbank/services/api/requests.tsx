@@ -5,13 +5,13 @@ import { usePresentationStore } from "@/store/usePresentationStore";
 export async function Prompt(prompt: string, router: any) {
   try {
     const response = await fetch(
-      `${process.env.BACKEND_API}/v1/presentations/generate/note`,
+      `http://localhost:8080/api/v1/presentations/generate/note`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ note: prompt, templatePresentationId: 0 }),
+        body: JSON.stringify({ note: prompt, templatePresentationId: 1 }),
       }
     );
 
