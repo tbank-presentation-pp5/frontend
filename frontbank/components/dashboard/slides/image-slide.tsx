@@ -9,17 +9,16 @@ export const ImageSlide: React.FC<ImageSlideProps> = ({ slide }) => {
   const imageFields = slide.content.filter(field => field.type === 'IMAGE');
 
   return (
-    <div className="rounded-xl p-6 text-white w-[1104px] h-[621px] bg-purple-600 flex">
-      {/* Текстовый блок */}
-      <div className="flex-1 pr-4 flex flex-col justify-center">
+    <div className="p-11 text-white w-[1104px] h-[621px] bg-[#222424] flex">
+      <div className="flex-1 pr-4 flex flex-col">
         {textFields.map(field => (
-          <div key={field.fieldId} className="text-xl mb-4">
+            
+          <div key={field.fieldId} className={field.key.includes('title') ? 'text-4xl font-bold mb-16' : 'text-lg'}>
             {field.value}
           </div>
         ))}
       </div>
       
-      {/* Изображения */}
       <div className="flex-1 flex items-center justify-center">
         {imageFields.map(field => (
           <img 

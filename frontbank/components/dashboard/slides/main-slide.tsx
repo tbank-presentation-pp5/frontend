@@ -6,11 +6,11 @@ interface MainSlideProps {
 
 export const MainSlide: React.FC<MainSlideProps> = ({ slide }) => {
   return (
-    <div className="p-6 text-white w-[1104px] h-[621px] bg-[#333333] flex items-center">
+    <div className="p-11 text-white w-[1104px] h-[621px] bg-[#333333] flex items-center">
       {slide.content.map((field) => (
         <div key={field.fieldId} className="text-center mb-4">
           {field.type === 'TEXT' ? (
-            <div className={field.key === 'title' ? 'text-4xl font-bold' : 'text-xl'}>
+            <div className={field.key === 'title' ? 'text-6xl font-bold' : 'text-xl'}>
               {field.value}
             </div>
           ) : (
