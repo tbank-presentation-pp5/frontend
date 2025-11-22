@@ -29,9 +29,9 @@ export const Scratch = () => {
 
     try {
       await Prompt(prompt, router);
-      setPrompt("");
     } catch (error) {
     } finally {
+      setPrompt("");
       setIsLoading(false);
     }
   };
