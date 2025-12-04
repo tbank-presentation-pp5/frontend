@@ -17,7 +17,7 @@ export const ImageSlide: React.FC<ImageSlideProps> = ({ slide }) => {
             <EditableTextField 
               field={field}
               slideId={slide.slideId}
-              className={field.key.includes('title') ? 'text-4xl font-bold mb-5' : 'text-lg'}
+              className={field.key.includes('title') ? 'text-5xl font-bold mb-7' : 'text-2xl'}
             />
           </div>
         ))}

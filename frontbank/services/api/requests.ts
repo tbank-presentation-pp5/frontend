@@ -110,3 +110,52 @@ export const generatePresentationFromPlan = async (
     throw error;
   }
 };
+
+export const downloadPresentationPPTX = async (
+  presentationId: number,
+  fileName: string = 'presentation.pptx'
+): Promise<void> => {
+  try {
+    const response = await fetch(
+      `http://localhost:8080/api/v1/presentations/${presentationId}/pptx/download`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Получаем blob из ответа
+    const blob = await response.blob();
+    
+    // Создаем URL для скачивания
+    const url = window.URL.createObjectURL(blob);
+    
+    // Создаем временную ссылку для скачивания
+    const link = document.createElement('a');
+    link.href = url;
+    
+    // Используем имя файла из параметра или из store
+    const cleanFileName = fileName.replace(/[^a-zA-Z0-9а-яА-ЯёЁ\s\-_]/g, '_');
+    link.download = cleanFileName.endsWith('.pptx') 
+      ? cleanFileName 
+      : `${cleanFileName}.pptx`;
+    
+    // Добавляем ссылку на страницу, кликаем по ней и удаляем
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Освобождаем URL
+    window.URL.revokeObjectURL(url);
+    
+  } catch (error) {
+    console.error('Error downloading presentation PPTX:', error);
+    throw error;
+  }
+};

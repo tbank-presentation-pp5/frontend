@@ -9,6 +9,7 @@ import { ImageSlide } from "@/components/dashboard/slides/image-slide";
 import { Slide } from "@/services/types";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Loader2 } from "lucide-react";
+import { PPTXExport } from "@/components/dashboard/pptx-export";
 
 export default function PresentationPage() {
   const params = useParams();
@@ -86,7 +87,10 @@ export default function PresentationPage() {
         <div className="flex w-[1104px] h-16 mx-auto items-center justify-between">
           <h1 className="text-xl font-semibold">{name}</h1>
           <div className="flex gap-2">
-            {/* <PDFExport slides={slides} presentationName={name} /> */}
+            <PPTXExport
+              presentationId={presentationId}
+              presentationName={name}
+            />
             <Button variant={"yellow"} onClick={() => handleBack()}>
               Закрыть презентацию
             </Button>
