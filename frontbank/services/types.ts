@@ -32,3 +32,41 @@ export type PromptStore = {
   page: page;
   setPage: (page: page) => void;
 };
+
+export interface SlidePlan {
+  title: string;
+  points: string[];
+}
+
+export interface PresentationOutline {
+  id: number;
+  shortDescription: string;
+  numberOfSlides: number;
+  plan: SlidePlan[];
+}
+
+export interface PresentationOutlineStore {
+  currentOutline: PresentationOutline | null;
+  
+  outlines: Record<number, PresentationOutline>;
+
+  viewedOutline: PresentationOutline | null;
+  
+  isLoading: boolean;
+  error: string | null;
+  
+  setCurrentOutline: (outline: PresentationOutline) => void;
+  setViewedOutline: (outline: PresentationOutline | null) => void;
+  addToHistory: (outline: PresentationOutline) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  clearCurrentOutline: () => void;
+  clearViewedOutline: () => void;
+  getOutlineById: (id: number) => PresentationOutline | null;
+  loadOutlineById: (id: number) => Promise<PresentationOutline | null>;
+}
+
+export interface GenerateOutlineRequest {
+  numberOfSlides: number;
+  shortDescription: string;
+}

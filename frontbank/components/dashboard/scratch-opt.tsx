@@ -2,37 +2,50 @@
 
 import Image from "next/image";
 import { Input } from "../ui/input";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-} from "../ui/carousel";
+import SimpleSlidesCarousel from "../ui/carousel";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import React, { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { ChevronRight } from "lucide-react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { Prompt } from "@/services/api/requests";
-import { setTimeout } from "timers";
+import { generatePresentationOutline } from "@/services/api/requests";
+import { usePresentationOutlineStore } from "@/store/usePresentationOutlineStore";
+import { PresentationOutlineView } from '@/components/dashboard/outline-preview';
 
 export const Scratch = () => {
   const [prompt, setPrompt] = useState("");
+  const [numberOfSlides, setNumberOfSlides] = useState(10);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+  const { setCurrentOutline, setLoading, setError, clearCurrentOutline, currentOutline } =
+    usePresentationOutlineStore();
+
+  const slideOptions = [7, 10, 15];
+
   const handleSubmit = async () => {
+    if (!prompt.trim()) return;
+
     setIsLoading(true);
+    setLoading(true);
+    setError(null);
 
     try {
-      await Prompt(prompt, router);
+      const outlineData = await generatePresentationOutline({
+        numberOfSlides,
+        shortDescription: prompt,
+      });
+
+      setCurrentOutline(outlineData);
+      router.push(`/presentation/${outlineData.id}`);
     } catch (error) {
+      setError(error instanceof Error ? error.message : "Ошибка генерации");
+      toast.error("Ошибка создания презентации");
     } finally {
-      setPrompt("");
       setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -62,23 +75,12 @@ export const Scratch = () => {
       <div className="w-[950px] rounded-3xl bg-accent2 flex flex-col gap-6 py-10 px-7">
         <div className="flex gap-6">
           <div className="bg-field h-11 w-46 rounded-lg flex justify-center items-center">
-            <Carousel className="w-[100px]">
-              <CarouselContent>
-                {Array.from({ length: 11 }).flatMap((_, index) =>
-                  index > 2
-                    ? [
-                        <CarouselItem key={index}>
-                          <div className="text-center">
-                            {index} {index <= 4 ? "слайда" : "слайдов"}
-                          </div>
-                        </CarouselItem>,
-                      ]
-                    : []
-                )}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <SimpleSlidesCarousel
+              value={numberOfSlides}
+              onChange={setNumberOfSlides}
+              options={slideOptions}
+              className="w-[100px]"
+            />
           </div>
           <div className="bg-field h-11 rounded-lg flex justify-center items-center">
             <ToggleGroup type="single" defaultValue="16/9">
@@ -92,17 +94,18 @@ export const Scratch = () => {
             onChange={(e) => {
               setPrompt(e.target.value);
             }}
-            className="bg-field h-14 focus:bg-accent2"
+            className="bg-field h-14"
             placeholder="Напишите тему своей презентации"
             maxLength={100}
-            disabled={isLoading ? true : false}
+            disabled={isLoading}
             value={prompt}
+            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           />
           <motion.div whileTap={{ scale: 0.9 }}>
             <Button
               variant={"next"}
               onClick={handleSubmit}
-              disabled={!prompt.trim() ? true : false}
+              disabled={!prompt.trim() || isLoading}
             >
               <ChevronRight className="size-6" />
             </Button>

@@ -1,27 +1,43 @@
 "use client";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { usePresentationStore } from "@/store/usePresentationStore";
 import { MainSlide } from "@/components/dashboard/slides/main-slide";
 import { SectionSlide } from "@/components/dashboard/slides/section-slide";
 import { ImageSlide } from "@/components/dashboard/slides/image-slide";
 import { Slide } from "@/services/types";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { PDFExport } from "@/components/dashboard/pdf-export";
+import { ArrowLeft, Loader2 } from "lucide-react";
 
 export default function PresentationPage() {
-  const { presentationId, name, createdAt, slides, clearPresentation } =
-    usePresentationStore();
+  const params = useParams();
   const router = useRouter();
+  const { presentationId, name, slides, clearPresentation } = usePresentationStore();
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleClose = () => {
+  const id = Number(params.id);
+
+  // Проверяем, соответствует ли ID в URL ID в store
+  useEffect(() => {
+    if (presentationId && presentationId === id) {
+      setIsLoading(false);
+    } else {
+      // Если презентация не загружена или ID не совпадает, 
+      // можно попробовать загрузить из API или перенаправить
+      if (!presentationId) {
+        // Показываем загрузку или пытаемся загрузить презентацию
+        // Можно добавить запрос к API по presentationId
+        console.log("Презентация не найдена в store, id:", id);
+        setIsLoading(false);
+      }
+    }
+  }, [id, presentationId]);
+
+  const handleBack = () => {
     clearPresentation();
     router.push("/");
   };
-
-  if (!presentationId) {
-    return <div>Загрузка...</div>;
-  }
 
   const renderSlideComponent = (slide: Slide) => {
     switch (slide.type) {
@@ -40,28 +56,54 @@ export default function PresentationPage() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
+        <p className="text-muted-foreground">Загружаем презентацию...</p>
+      </div>
+    );
+  }
+
+  if (!presentationId || slides.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <h1 className="text-2xl font-bold mb-4">Презентация не найдена</h1>
+        <p className="text-muted-foreground mb-6">
+          Не удалось загрузить презентацию с ID: {id}
+        </p>
+        <Button onClick={handleBack}>
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Вернуться на главную
+        </Button>
+      </div>
+    );
+  }
+
   return (
-    <div>
-      <div className="bg-accent2 sticky top-0">
+    <div className="min-h-screen bg-background">
+      <div className="bg-accent2 sticky top-0 z-10">
         <div className="flex w-[1104px] h-16 mx-auto items-center justify-between">
-          <a>{name}</a>
+          <h1 className="text-xl font-semibold">{name}</h1>
           <div className="flex gap-2">
             {/* <PDFExport slides={slides} presentationName={name} /> */}
-            <Button variant={"yellow"} onClick={() => handleClose()}>
+            <Button variant={"yellow"} onClick={() => handleBack()}>
               Закрыть презентацию
             </Button>
           </div>
         </div>
       </div>
 
-      {slides.map((slide) => (
-        <div key={slide.slideId} className="p-6 flex flex-col items-center">
-          <h3 className="text-xl font-semibold mb-4">
-            Слайд {slide.orderNumber}
-          </h3>
-          {renderSlideComponent(slide)}
-        </div>
-      ))}
+      <div className="py-8">
+        {slides.map((slide) => (
+          <div key={slide.slideId} className="p-6 flex flex-col items-center">
+            <h3 className="text-xl font-semibold mb-4">
+              Слайд {slide.orderNumber}
+            </h3>
+            {renderSlideComponent(slide)}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
