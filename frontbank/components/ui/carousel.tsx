@@ -76,7 +76,7 @@ export const SimpleSlidesCarousel: React.FC<SimpleSlidesCarouselProps> = ({
         variant="white"
         size="white"
         onClick={handlePrevious}
-        className="h-6 w-6 rounded-full"
+        className="h-6 w-6 bg-field hover:bg-field active:bg-field"
         aria-label="Предыдущий"
       >
         <ChevronLeft className="h-4 w-4" />
@@ -92,7 +92,7 @@ export const SimpleSlidesCarousel: React.FC<SimpleSlidesCarouselProps> = ({
         variant="white"
         size="white"
         onClick={handleNext}
-        className="h-6 w-6 rounded-full hover:bg-muted"
+        className="h-6 w-6 bg-field hover:bg-field active:bg-field"
         aria-label="Следующий"
       >
         <ChevronRight className="h-4 w-4" />
