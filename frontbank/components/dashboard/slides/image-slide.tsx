@@ -6,7 +6,9 @@ interface ImageSlideProps {
 }
 
 export const ImageSlide: React.FC<ImageSlideProps> = ({ slide }) => {
-  const textFields = slide.content.filter(field => field.type === 'TEXT');
+  const textFields = slide.content
+    .filter(field => field.type === 'TEXT')
+    .sort((a, b) => a.templateFieldId - b.templateFieldId);
   const imageFields = slide.content.filter(field => field.type === 'IMAGE');
 
   return (
@@ -17,7 +19,11 @@ export const ImageSlide: React.FC<ImageSlideProps> = ({ slide }) => {
             <EditableTextField 
               field={field}
               slideId={slide.slideId}
-              className={field.key.includes('title') ? 'text-5xl font-bold mb-7' : 'text-2xl'}
+              className={
+                field.key === 'title' || field.templateFieldId === 3 
+                  ? 'text-5xl font-bold mb-7' 
+                  : 'text-2xl'
+              }
             />
           </div>
         ))}
