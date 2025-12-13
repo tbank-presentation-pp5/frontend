@@ -9,5 +9,5 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
     volumes:
-      - ./frontbank/public:/app/public:ro
+      - ./frontbank/public:/app/public:z
       - ./logs:/app/logs
