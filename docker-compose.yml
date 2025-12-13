@@ -1,0 +1,13 @@
+services:
+  frontbank:
+    build:
+      context: ./frontbank
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    volumes:
+      - ./frontbank/public:/app/public:ro
+      - ./logs:/app/logs

@@ -14,26 +14,35 @@ import { PPTXExport } from "@/components/dashboard/pptx-export";
 export default function PresentationPage() {
   const params = useParams();
   const router = useRouter();
-  const { presentationId, name, slides, clearPresentation } = usePresentationStore();
+  const {
+    presentationId,
+    name,
+    slides,
+    clearPresentation,
+    loadPresentationById,
+  } = usePresentationStore();
   const [isLoading, setIsLoading] = useState(true);
 
   const id = Number(params.id);
 
-  // Проверяем, соответствует ли ID в URL ID в store
   useEffect(() => {
-    if (presentationId && presentationId === id) {
-      setIsLoading(false);
-    } else {
-      // Если презентация не загружена или ID не совпадает, 
-      // можно попробовать загрузить из API или перенаправить
-      if (!presentationId) {
-        // Показываем загрузку или пытаемся загрузить презентацию
-        // Можно добавить запрос к API по presentationId
-        console.log("Презентация не найдена в store, id:", id);
+    const loadPresentation = async () => {
+      if (presentationId && presentationId === id) {
+        setIsLoading(false);
+      } else if (id && !isNaN(id)) {
+        const presentation = await loadPresentationById(id);
+        if (!presentation) {
+          console.log("Презентация не найдена в store, id:", id);
+        }
+        setIsLoading(false);
+      } else {
+        console.log("Неверный id:");
         setIsLoading(false);
       }
-    }
-  }, [id, presentationId]);
+    };
+
+    loadPresentation();
+  }, [id, presentationId, loadPresentationById]);
 
   const handleBack = () => {
     clearPresentation();
@@ -49,11 +58,7 @@ export default function PresentationPage() {
       case "TEXT_WITH_IMAGE":
         return <ImageSlide slide={slide} />;
       default:
-        return (
-          <div>
-            Неизвестный тип слайда: {slide.type}
-          </div>
-        );
+        return <div>Неизвестный тип слайда: {slide.type}</div>;
     }
   };
 

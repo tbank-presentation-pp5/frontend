@@ -8,10 +8,15 @@ export interface PresentationStore {
   name: string;
   createdAt: string;
   slides: Slide[];
+
+  presentationsCache: { [id: number]: Presentation };
+
   updateSlide: (slideId: number, updatedSlide: Partial<Slide>) => void;
   updateContent: (slideId: number, fieldId: number, newValue: string) => void;
   setPresentation: (presentation: Presentation) => void;
   clearPresentation: () => void;
+
+  loadPresentationById: (id: number) => Promise<Presentation | null>;
 }
 
 export const usePresentationStore = create<PresentationStore>()(
@@ -22,6 +27,7 @@ export const usePresentationStore = create<PresentationStore>()(
       name: "",
       createdAt: "",
       slides: [],
+      presentationsCache: {},
 
       updateSlide: (slideId: number, updatedSlide: Partial<Slide>) => {
         set((state) => ({
@@ -61,6 +67,44 @@ export const usePresentationStore = create<PresentationStore>()(
           createdAt: "",
           slides: [],
         });
+      },
+
+      loadPresentationById: async (id: number) => {
+        const state = get();
+        
+        // 1. Проверяем в кэше
+        const cachedPresentation = state.presentationsCache[id];
+        if (cachedPresentation) {
+          set({ 
+            presentationId: cachedPresentation.presentationId,
+            name: cachedPresentation.name,
+            createdAt: cachedPresentation.createdAt,
+            slides: cachedPresentation.slides,
+            templatePresentationId: cachedPresentation.templatePresentationId,
+          });
+          return cachedPresentation;
+        }
+        
+        // 2. Если нет в кэше, загружаем с сервера
+        try {
+          // Динамический импорт, чтобы избежать циклических зависимостей
+          const { getPresentationById } = await import('@/services/api/requests');
+          const presentation = await getPresentationById(id);
+          
+          // Сохраняем в кэш и устанавливаем как текущую
+          set((state) => ({
+            ...presentation,
+            presentationsCache: {
+              ...state.presentationsCache,
+              [presentation.presentationId]: presentation,
+            },
+          }));
+          
+          return presentation;
+        } catch (error) {
+          console.error("Ошибка при загрузке презентации:", error);
+          return null;
+        }
       },
     }),
     {

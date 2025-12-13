@@ -53,7 +53,7 @@ export const EditableTextField: React.FC<EditableTextFieldProps> = ({
       value={value}
       onChange={handleChange}
       className={`
-        w-full bg-transparent border-none resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 rounded
+        w-full bg-transparent border-none resize-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 rounded
         overflow-hidden ${className}
       `}
       rows={getMinRows()}

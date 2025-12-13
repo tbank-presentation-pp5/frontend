@@ -34,7 +34,7 @@ export const PresentationOutlineView: React.FC<PresentationOutlineViewProps> = (
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
-                {slide.points.map((point, pointIndex) => (
+                {slide.points?.map((point, pointIndex) => (
                   <li key={pointIndex} className="flex items-start gap-3">
                     <ChevronRight className="h-4 w-4 mt-0.5 text-muted-foreground flex-shrink-0" />
                     <span className="text-sm">{point}</span>

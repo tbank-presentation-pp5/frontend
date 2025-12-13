@@ -57,6 +57,16 @@ export const generatePresentationOutline = async (
   }
 };
 
+export const getPresentationById = async (id: number): Promise<Presentation> => {
+  const response = await fetch(`http://localhost:8080/api/v1/presentations/${id}`);
+  
+  if (!response.ok) {
+    throw new Error(`Ошибка загрузки презентации: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
 export const getPresentationOutline = async (id: number): Promise<PresentationOutline> => {
   try {
     const response = await fetch(`http://localhost:8080/api/v1/presentation-plans/${id}`, {
