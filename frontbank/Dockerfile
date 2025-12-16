@@ -14,9 +14,11 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+ARG PRODUCTION_URL
 # Установка переменных окружения для сборки
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV NEXT_PUBLIC_API_URL=${PRODUCTION_URL:-http://localhost:8080}
 
 # Сборка приложения
 RUN pnpm build
