@@ -38,7 +38,7 @@ export const generatePresentationOutline = async (
   data: GenerateOutlineRequest
 ): Promise<PresentationOutline> => {
   try {
-    const response = await fetch('http://localhost:8080/api/v1/presentation-plans/generate', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/presentation-plans/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export const generatePresentationOutline = async (
 };
 
 export const getPresentationById = async (id: number): Promise<Presentation> => {
-  const response = await fetch(`http://localhost:8080/api/v1/presentations/${id}`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/presentations/${id}`);
   
   if (!response.ok) {
     throw new Error(`Ошибка загрузки презентации: ${response.status}`);
@@ -69,7 +69,7 @@ export const getPresentationById = async (id: number): Promise<Presentation> => 
 
 export const getPresentationOutline = async (id: number): Promise<PresentationOutline> => {
   try {
-    const response = await fetch(`http://localhost:8080/api/v1/presentation-plans/${id}`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/presentation-plans/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export const generatePresentationFromPlan = async (
 ): Promise<Presentation> => {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/v1/presentations/generate/plan`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/presentations/generate/plan`,
       {
         method: "POST",
         headers: {
@@ -127,7 +127,7 @@ export const downloadPresentationPPTX = async (
 ): Promise<void> => {
   try {
     const response = await fetch(
-      `http://localhost:8080/api/v1/presentations/${presentationId}/pptx/download`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/v1/presentations/${presentationId}/pptx/download`,
       {
         method: 'GET',
         headers: {
@@ -168,4 +168,23 @@ export const downloadPresentationPPTX = async (
     console.error('Error downloading presentation PPTX:', error);
     throw error;
   }
+};
+
+export const updatePresentationPlan = async (
+  id: number, 
+  plan: Array<{ title: string; points: string[] }>
+): Promise<PresentationOutline> => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/presentation-plans/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ plan }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to update presentation plan: ${response.statusText}`);
+  }
+
+  return response.json();
 };
