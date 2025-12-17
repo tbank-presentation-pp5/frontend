@@ -140,8 +140,26 @@ export const downloadPresentationPPTX = async (
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
+    // Пытаемся получить имя файла из заголовка Content-Disposition
+    const contentDisposition = response.headers.get('Content-Disposition');
+    let actualFileName = fileName;
+
+    if (contentDisposition) {
+      // Извлекаем имя файла из заголовка
+      const matches = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+      if (matches && matches[1]) {
+        // Удаляем кавычки если они есть
+        actualFileName = matches[1].replace(/['"]/g, '');
+      }
+    }
+
     // Получаем blob из ответа
     const blob = await response.blob();
+    
+    // Проверяем, что blob не пустой
+    if (blob.size === 0) {
+      throw new Error('Received empty file');
+    }
     
     // Создаем URL для скачивания
     const url = window.URL.createObjectURL(blob);
@@ -150,19 +168,24 @@ export const downloadPresentationPPTX = async (
     const link = document.createElement('a');
     link.href = url;
     
-    // Используем имя файла из параметра или из store
-    const cleanFileName = fileName.replace(/[^a-zA-Z0-9а-яА-ЯёЁ\s\-_]/g, '_');
-    link.download = cleanFileName.endsWith('.pptx') 
-      ? cleanFileName 
-      : `${cleanFileName}.pptx`;
+    // Используем имя файла из заголовка или параметра
+    // Проверяем расширение
+    if (!actualFileName.toLowerCase().endsWith('.pptx')) {
+      actualFileName = `${actualFileName}.pptx`;
+    }
+    
+    link.download = actualFileName;
+    link.style.display = 'none';
     
     // Добавляем ссылку на страницу, кликаем по ней и удаляем
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     
-    // Освобождаем URL
-    window.URL.revokeObjectURL(url);
+    // Освобождаем URL через таймаут
+    setTimeout(() => {
+      window.URL.revokeObjectURL(url);
+    }, 100);
     
   } catch (error) {
     console.error('Error downloading presentation PPTX:', error);
