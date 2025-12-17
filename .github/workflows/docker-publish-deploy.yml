@@ -59,6 +59,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            PRODUCTION_URL=${{ secrets.PRODUCTION_URL }}
 
       - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }}
@@ -66,3 +68,11 @@ jobs:
           TAGS: ${{ steps.meta.outputs.tags }}
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+
+# deploy
+      - name: webhook
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: ${{ secrets.WEBHOOK_PRODUCTION }}
+          method: 'POST'
+          timeout: 1000
