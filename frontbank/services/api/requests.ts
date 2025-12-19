@@ -59,11 +59,11 @@ export const generatePresentationOutline = async (
 
 export const getPresentationById = async (id: number): Promise<Presentation> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/presentations/${id}`);
-  
+
   if (!response.ok) {
     throw new Error(`Ошибка загрузки презентации: ${response.status}`);
   }
-  
+
   return response.json();
 };
 
@@ -102,9 +102,9 @@ export const generatePresentationFromPlan = async (
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
-          templatePresentationId, 
-          planId 
+        body: JSON.stringify({
+          templatePresentationId,
+          planId
         }),
       }
     );
@@ -119,6 +119,34 @@ export const generatePresentationFromPlan = async (
     console.error("Error generating presentation from plan:", error);
     throw error;
   }
+};
+
+
+export const updatePresentationPlan = async (
+  id: number,
+  plan: Array<{ title: string; points: string[] }>
+): Promise<PresentationOutline> => {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/presentation-plans/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': 'true',
+      },
+      body: JSON.stringify({ plan }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to update presentation plan: ${response.statusText}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error generating presentation from plan:", error);
+    throw error;
+  }
+
 };
 
 export const downloadPresentationPPTX = async (
@@ -163,7 +191,7 @@ export const downloadPresentationPPTX = async (
     
     // Создаем URL для скачивания
     const url = window.URL.createObjectURL(blob);
-    
+
     // Создаем временную ссылку для скачивания
     const link = document.createElement('a');
     link.href = url;
@@ -191,23 +219,4 @@ export const downloadPresentationPPTX = async (
     console.error('Error downloading presentation PPTX:', error);
     throw error;
   }
-};
-
-export const updatePresentationPlan = async (
-  id: number, 
-  plan: Array<{ title: string; points: string[] }>
-): Promise<PresentationOutline> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/presentation-plans/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ plan }),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to update presentation plan: ${response.statusText}`);
-  }
-
-  return response.json();
 };

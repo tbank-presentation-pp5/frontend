@@ -3,9 +3,10 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Loader2 } from 'lucide-react';
-import { generatePresentationFromPlan } from '@/services/api/requests';
+import { generatePresentationFromPlan, updatePresentationPlan } from '@/services/api/requests';
 import { useRouter } from 'next/navigation';
 import { usePresentationStore } from '@/store/usePresentationStore';
+import { usePresentationOutlineStore } from '@/store/usePresentationOutlineStore';
 import { toast } from 'sonner';
 
 interface GeneratePresentationButtonProps {
@@ -20,25 +21,26 @@ export const GeneratePresentationButton: React.FC<GeneratePresentationButtonProp
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { setPresentation } = usePresentationStore();
+  const { currentOutline, setCurrentOutline } = usePresentationOutlineStore();
 
   const handleGeneratePresentation = async () => {
-    if (!planId) return;
+    if (!planId || !currentOutline) return;
     
     setIsLoading(true);
     
     try {
-      // Генерируем презентацию по плану
+      const updatedOutline = await updatePresentationPlan(planId, currentOutline.plan);
+      
+      setCurrentOutline(updatedOutline);
+      
       const presentation = await generatePresentationFromPlan(planId);
       
-      // Сохраняем презентацию в store
       setPresentation(presentation);
       
-      // Перенаправляем на страницу презентации
       router.push(`/dashboard/${presentation.presentationId}`);
       
     } catch (error) {
       console.error('Error generating presentation:', error);
-      // Можно добавить toast-уведомление об ошибке
       toast.error('Ошибка при генерации презентации. Попробуйте еще раз.');
     } finally {
       setIsLoading(false);

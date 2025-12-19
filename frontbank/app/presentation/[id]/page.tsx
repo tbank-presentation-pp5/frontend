@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Loader2, AlertCircle } from 'lucide-react';
-import { usePresentationOutlineStore } from '@/store/usePresentationOutlineStore';
-import { PresentationOutlineView } from '@/components/dashboard/outline-preview';
-import { GeneratePresentationButton } from '@/components/presentation/generate-presentation-button';
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Loader2, AlertCircle } from "lucide-react";
+import { usePresentationOutlineStore } from "@/store/usePresentationOutlineStore";
+import { PresentationOutlineView } from "@/components/presentation/outline-preview";
+import { GeneratePresentationButton } from "@/components/presentation/generate-presentation-button";
 
 export default function PresentationOutlinePage() {
   const params = useParams();
@@ -18,7 +18,7 @@ export default function PresentationOutlinePage() {
     isLoading, 
     error, 
     loadOutlineById,
-    clearViewedOutline 
+    clearViewedOutline,
   } = usePresentationOutlineStore();
 
   const id = Number(params.id);
@@ -36,7 +36,6 @@ export default function PresentationOutlinePage() {
 
     loadOutline();
 
-    // Очищаем viewedOutline при размонтировании
     return () => {
       clearViewedOutline();
     };
@@ -46,7 +45,7 @@ export default function PresentationOutlinePage() {
     router.push('/');
   };
 
-  if (isLoading && !isInitialized) {
+  if (isLoading && !viewedOutline) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
@@ -73,7 +72,9 @@ export default function PresentationOutlinePage() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
         <h1 className="text-2xl font-bold mb-2">План не найден</h1>
-        <p className="text-muted-foreground mb-6">План презентации с ID {id} не найден</p>
+        <p className="text-muted-foreground mb-6">
+          План презентации с ID {id} не найден
+        </p>
         <Button onClick={handleBack}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Вернуться назад
@@ -83,36 +84,28 @@ export default function PresentationOutlinePage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto py-8 px-4">
-        {/* Шапка с кнопкой назад */}
+    <div className="min-h-screen w-[1104px] mx-auto bg-background">
+      <div className="container py-8">
         <div className="mb-8">
-          <Button
-            variant="white"
-            onClick={handleBack}
-            className="mb-4"
-          >
+          <Button variant="white" onClick={handleBack} className="mb-4">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Назад к генерации
           </Button>
-          
-          <div className="bg-card rounded-lg p-6 border">
-            <h1 className="text-2xl font-bold mb-2">{viewedOutline.shortDescription}</h1>
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>{viewedOutline.numberOfSlides} слайдов</span>
-              <span>•</span>
-              <span>ID: {viewedOutline.id}</span>
+          <div className="flex flex-col">
+            <div className="flex gap-3 items-center justify-center pr-16 mb-6">
+              <h1 className="text-h1">Редактируйте</h1>
             </div>
+            <a className="text-center font-light mb-16">
+              Здесь вы можете отредактировать текст каждого слайда и
+              дополнительно настроить свою презентацию
+            </a>
           </div>
         </div>
 
-        {/* Компонент с отображением outline */}
         <PresentationOutlineView outline={viewedOutline} />
-
+        
         <div className="sticky bottom-6 backdrop-blur p-4 rounded-lg border shadow-lg flex justify-center">
-          <GeneratePresentationButton 
-            planId={id}
-          />
+          <GeneratePresentationButton planId={id} />
         </div>
       </div>
     </div>

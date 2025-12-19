@@ -12,7 +12,7 @@ import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { generatePresentationOutline } from "@/services/api/requests";
 import { usePresentationOutlineStore } from "@/store/usePresentationOutlineStore";
-import { PresentationOutlineView } from '@/components/dashboard/outline-preview';
+import { PresentationOutlineView } from '@/components/presentation/outline-preview';
 
 export const Scratch = () => {
   const [prompt, setPrompt] = useState("");
