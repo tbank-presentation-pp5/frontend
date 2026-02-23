@@ -1,0 +1,33 @@
+a {
+  font-family: "Neue Sans Regular", sans-serif;
+  font-size: 15px;
+  line-height: 225%;
+  display: inline-block;
+  margin-bottom: 28px;
+}
+
+.top-container {
+  max-width: 1104px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  margin-block: 64px;
+}
+
+.mid-container {
+  max-width: 1104px;
+  margin-inline: auto;
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.bot-container {
+  max-width: 1104px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 528px 528px;
+  grid-template-rows: 348px 348px;
+  gap: 48px 40px;
+  margin-bottom: 64px;
+}
