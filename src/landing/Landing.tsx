@@ -1,10 +1,14 @@
 import './landing.css'
 import { Link } from 'react-router'
-import Header from './ui/header/Header'
+import Header from '../ui/header/Header'
+import { Helmet } from "react-helmet"
 
 function App() {
   return (
     <>
+      <Helmet>
+        <title>Конструктор презентаций</title>
+      </Helmet>
       <Header />
       <div className="top-container">
         <img src='./clock.png' />
@@ -23,14 +27,14 @@ function App() {
           <h1>Генерируйте целые презентации с одного предложения</h1>
           <a>Генерация текстового содержания по теме вашей презентации<br />Настройка количества текста на слайдах<br />Генерация изображений с помощью искусственного интеллекта</a>
         </div>
-        <div className='card' style={{
+        <div className='landing-card' style={{
           backgroundImage: `url(./landing_card_1.png)`
         }}>
           <h2>Создайте презентацию с нуля</h2>
           <span>Начните новый проект с генерации текста и выбора шаблона</span>
           <Link to="/generate" className='button-white'>Начать с нуля</Link>
         </div>
-        <div className='card' style={{
+        <div className='landing-card' style={{
           backgroundImage: `url(./landing_card_2.png)`
         }}>
           <h2>Начните работу с файла</h2>
