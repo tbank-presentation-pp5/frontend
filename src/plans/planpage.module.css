@@ -1,0 +1,76 @@
+.mainContainer {
+    max-width: 1104px;
+    margin-inline: auto;
+    margin-block: 128px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.planContainer {
+    width: 1056px;
+    background-color: #FFFFFF;
+    padding: 24px;
+    border-radius: 20px;
+}
+
+.planlist {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.planPoint {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #F2F4F7; 
+}
+
+.planPoint > h2 {
+    margin: 0;
+}
+
+.slideTitle {
+    all: unset;
+    font-family: "Tinkoff Sans Bold", sans-serif;
+    letter-spacing: 1.5%;
+    font-size: 15px;
+    width: 950px;
+    margin: 0;
+}
+
+.points {
+    margin: 0;
+    padding-left: 16px;
+}
+
+.pointitem {
+    list-style: disc;
+}
+
+.pointitem > input {
+    all: unset;
+    font-family: "Neue Sans Regular", sans-serif;
+    font-size: 13px;
+    letter-spacing: 1.5%;
+    width: 934px;
+}
+
+.pointitem::marker {
+    font-size: 10px;
+}
+
+.submitButton {
+    width: 100%;
+    height: 64px;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FFFFFF;
+    bottom: 0;
+}

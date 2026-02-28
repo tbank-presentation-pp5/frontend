@@ -1,21 +1,21 @@
-.main-container {
+.mainContainer {
     margin-top: 128px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.main-container > a {
+.mainContainer > a {
     margin-bottom: 64px;
 }
 
-.cards-container {
+.cardsContainer {
     display: grid;
     grid-template-columns: 269px 269px 269px;
     gap: 64px;
 }
 
-.generate-card {
+.generateCard {
     display: flex;
     padding: 40px 32px;
     flex-direction: column;
@@ -26,7 +26,7 @@
     cursor: pointer;
 }
 
-.generate-card > a {
+.generateCard > a {
     line-height: 1.3;
     letter-spacing: 1.5%    ;
     font-size: 13px;
@@ -43,7 +43,7 @@
     margin-bottom: 0;
 }
 
-.prompt-form {
+.promptForm {
     display: flex;
     flex-direction: column;
     background-color: #FFFFFF;
@@ -55,7 +55,7 @@
     font-family: "Neue Sans Light", sans-serif;
 }
 
-.prompt-form > div > input {
+.promptForm > div > input {
     all: unset;
     background-color: #F6F7F8;
     border-radius: 8px;
@@ -66,17 +66,25 @@
     height: 56px;
 }
 
-.prompt-form > div > input:focus {
+.promptForm > div > input:focus {
     border: 1px #333333 solid;
 }
 
-.prompt-form > div > span {
+.promptForm > div > span {
   font-size: 18px;
   display: inline-block;
 }
 
-.prompt-form > span {
+.promptForm > span {
   color: #F52222;
   font-size: 16px;
   display: inline-block;
+}
+
+.loader {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
 }

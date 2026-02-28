@@ -1,4 +1,4 @@
-import './landing.css'
+import styles from './landing.module.css'
 import { Link } from 'react-router'
 import Header from '../ui/header/Header'
 import { Helmet } from "react-helmet"
@@ -10,7 +10,7 @@ function App() {
         <title>Конструктор презентаций</title>
       </Helmet>
       <Header />
-      <div className="top-container">
+      <div className={styles.topContainer}>
         <img src='./clock.png' />
         <div>
           <h1>Создавайте презентации эффективнее</h1>
@@ -18,23 +18,23 @@ function App() {
           <Link to="generate" className='button-yellow'>Создать презентацию</Link>
         </div>
       </div>
-      <div className='mid-container'>
+      <div className={styles.midContainer}>
         <h1>Последние проекты</h1>
         <a>Здесь будут отображаться презентации над которыми вы работали ранее</a>
       </div>
-      <div className='bot-container'>
+      <div className={styles.botContainer}>
         <div>
           <h1>Генерируйте целые презентации с одного предложения</h1>
           <a>Генерация текстового содержания по теме вашей презентации<br />Настройка количества текста на слайдах<br />Генерация изображений с помощью искусственного интеллекта</a>
         </div>
-        <div className='landing-card' style={{
+        <div className={styles.landingCard} style={{
           backgroundImage: `url(./landing_card_1.png)`
         }}>
           <h2>Создайте презентацию с нуля</h2>
           <span>Начните новый проект с генерации текста и выбора шаблона</span>
           <Link to="/generate" className='button-white'>Начать с нуля</Link>
         </div>
-        <div className='landing-card' style={{
+        <div className={styles.landingCard} style={{
           backgroundImage: `url(./landing_card_2.png)`
         }}>
           <h2>Начните работу с файла</h2>
