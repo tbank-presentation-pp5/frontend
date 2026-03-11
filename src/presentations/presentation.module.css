@@ -1,0 +1,118 @@
+.presentation {
+    display: flex;
+    flex-direction: column;
+    width: 1104px;
+    margin-inline: auto;
+    gap: 24px;
+    margin-bottom: 100px;
+    margin-top: 64px;
+}
+
+.mainSlide {
+    width: 1020px;
+    height: 557px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #333333;
+    border-radius: 8px;
+    padding: 32px 42px;
+    color: #FFFFFF;
+}
+
+.mainSlide > div > a {
+    margin-bottom: 0;
+}
+
+.mainField {
+    font-family: 'Tinkoff Sans Bold', sans-serif;
+    font-size: 58px;
+}
+
+.mainCred {
+    height: 86px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Neue Sans Bold', sans-serif;
+    font-size: 24px;
+}
+
+.sectionSlide {
+    width: 1104px;
+    height: 621px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 63px;
+    background-color: #222424;
+}
+
+.sectionLeft {
+    height: 100%;
+    width: 254px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 150px;
+    background-color: #333333;
+}
+
+.sectionRight {
+    font-family: 'Tinkoff Sans Bold', sans-serif;
+    font-size: 58px;
+    color: #FFFFFF;
+}
+
+.imageSlide {
+    width: 1020px;
+    height: 557px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 32px 42px;
+    background-color: #222424;
+    color: #FFFFFF;
+}
+
+.imageSlide img {
+    width: 402px;
+    height: 302px;
+}
+
+.imageTitle {
+    font-family: 'Tinkoff Sans Bold', sans-serif;
+    font-size: 58px;
+    color: #FFFFFF;
+}
+
+.textContainer {
+    font-family: "Tinkoff Sans Regular", sans-serif;
+    font-size: 32px;
+    display: flex;
+}
+
+.pageNumber {
+    display: flex;
+    justify-content: end;
+    height: 18px;
+    font-family: "Tinkoff Sans Regular", sans-serif;
+    font-size: 18px;
+}
+
+.headerCont {
+    height: 64px;
+    background-color: #FFFFFF;
+}
+
+.header {
+    display: flex;
+    max-width: 1104px;
+    font-family: "Neue Sans Regular", sans-serif;
+    font-weight: 13px;
+    max-height: 48.5px;
+    margin-inline: auto;
+    padding-block: 8px;
+    justify-content: space-between;
+    align-items: center;
+}

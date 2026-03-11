@@ -1,9 +1,13 @@
 import styles from './landing.module.css'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import Header from '../ui/header/Header'
 import { Helmet } from "react-helmet"
+import { usePresentations } from '../presentations/useLastPresentationsStore'
 
 function App() {
+  const presentations = usePresentations()
+  const navigate = useNavigate()
+
   return (
     <>
       <Helmet>
@@ -21,6 +25,14 @@ function App() {
       <div className={styles.midContainer}>
         <h1>Последние проекты</h1>
         <a>Здесь будут отображаться презентации над которыми вы работали ранее</a>
+        <div className={styles.lastSlides}>
+          {presentations.map((item) => (
+            <div key={item.id} className={styles.lastSlideItem} onClick={() => navigate(`/presentations/${item.id}`)}>
+              {item.title}
+            </div>
+          ))}
+        </div>
+
       </div>
       <div className={styles.botContainer}>
         <div>

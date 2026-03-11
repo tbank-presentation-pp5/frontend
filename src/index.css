@@ -111,6 +111,10 @@ img {
   background-color: #FAB619;
 }
 
+h2 {
+  width: 20px;
+}
+
 .button-white {
   font-family: "Neue Sans Regular", sans-serif;
   font-size: 15px;

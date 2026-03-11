@@ -24,10 +24,15 @@
 .planPoint {
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
     gap: 12px;
     padding: 16px;
     border-radius: 8px;
     background-color: #F2F4F7; 
+}
+
+.planPoint:focus-within {
+    background-color: #EAECEE;
 }
 
 .planPoint > h2 {
@@ -73,4 +78,33 @@
     justify-content: center;
     background-color: #FFFFFF;
     bottom: 0;
+}
+
+.addSlide {
+    background-color: #F2F4F7; 
+    border: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    width: 100%;
+    height: 28px;
+    margin-top: 12px;
+    color: #6F7071;
+    cursor: pointer;
+}
+
+.addSlide:hover {
+    background-color: #EAECEE;
+}
+
+.flex {
+    display: flex;
+}
+
+.delete {
+    all: unset;
+    background-image: url("/delete.png");
+    background-size: cover;
+    width: 9px;
+    height: 12px;
+    cursor: pointer;
 }

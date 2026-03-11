@@ -47,3 +47,19 @@ a {
   letter-spacing: 1.5%;
   margin-bottom: auto;
 }
+
+.lastSlides {
+  display: grid;
+  grid-template-columns: 250px 250px 250px 250px;
+  gap: 32px;
+}
+
+.lastSlideItem {
+  width: 250px;
+  height: 198px;
+  padding-block: 4px;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+  font-size: 13px;
+  font-family: "Neue Sans Regular", sans-serif;
+}
