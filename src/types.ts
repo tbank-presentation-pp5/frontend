@@ -19,7 +19,7 @@ export type Presentation = {
   templatePresentationId: number,
   presentationId: number,
   name: string,
-  createdAt: string,
+  createdAt: Date,
   slides: Slide[]
 }
 

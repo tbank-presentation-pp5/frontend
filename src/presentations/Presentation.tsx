@@ -47,6 +47,7 @@ function Presentation() {
             <div className={styles.presentation}>
                 {data.slides.map((slide) => (
                     <div key={slide.slideId}>
+                        {slide.type}
                         {renderSlide(slide, data.createdAt)}
                     </div>
                 ))}
@@ -55,23 +56,8 @@ function Presentation() {
     )
 }
 
-const renderSlide = (slide: Slide, createdAt: string) => {
+const renderSlide = (slide: Slide, createdAt: Date) => {
     switch (slide.type) {
-        case "MAIN":
-            return (
-                <div className={styles.mainSlide}>
-                    <img src="/tbank.png" />
-                    {slide.content.map((field) => (
-                        <div key={field.fieldId} className={styles.mainField}>
-                            {field.value}
-                        </div>
-                    ))}
-                    <div className={styles.mainCred}>
-                        <a>Автор презентации</a>
-                        {createdAt}
-                    </div>
-                </div>
-            )
         case "SECTION":
             return (
                 <div className={styles.sectionSlide}>
@@ -83,6 +69,21 @@ const renderSlide = (slide: Slide, createdAt: string) => {
                             {field.value}
                         </div>
                     ))}
+                </div>
+            )
+        case "MAIN":
+            return (
+                <div className={styles.mainSlide}>
+                    <img src="/tbank.png" />
+                    {slide.content.map((field) => (
+                        <div key={field.fieldId} className={styles.mainField}>
+                            {field.value}
+                        </div>
+                    ))}
+                    <div className={styles.mainCred}>
+                        <a>Автор презентации</a>
+                        {createdAt.toString()}
+                    </div>
                 </div>
             )
         case "TEXT_WITH_IMAGE":
@@ -118,6 +119,37 @@ const renderSlide = (slide: Slide, createdAt: string) => {
                     {slide.isNeedPageNumber
                         ? <div className={styles.pageNumber}>{slide.slideId}</div>
                         : <div className={styles.pageNumber}></div>}
+                </div>
+            )
+        case "PROS_AND_CONS":
+            return (
+                <div className={styles.sectionSlide}>
+                    <div className={styles.prosConsLeft}>
+                        <h1>{slide.content[4].value}</h1>
+                    </div>
+                    <div className={styles.prosConsRight}>
+                        <div>
+                            <div className={styles.prosConsIcon}>
+                                <img src="/pros.png" />
+                                <div>{slide.content[1].value}</div>
+                            </div>
+                            <div className={styles.prosConsText}>
+                                {slide.content[0].value}
+                            </div>
+                        </div>
+                        <div>
+                            <div className={styles.prosConsIcon}>
+                                <img src="/cons.png" />
+                                <div>{slide.content[3].value}</div>
+                            </div>
+                            <div className={styles.prosConsText}>
+                                {slide.content[2].value}
+                            </div>
+                        </div>
+                    </div>
+                    {slide.isNeedPageNumber
+                        ? <div className={styles.pageNumberPros}>{slide.slideId}</div>
+                        : <div className={styles.pageNumberPros}></div>}
                 </div>
             )
 

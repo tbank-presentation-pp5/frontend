@@ -2,39 +2,44 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type Presentation = {
-    id: number;
-    title: string;
-    mainSlide: string;
+  id: number;
+  title: string;
+  mainSlide: string;
 };
 
 type PresentationState = {
-    presentations: Presentation[];
-    addPresentation: (presentation: Presentation) => void;
+  presentations: Presentation[];
+  addPresentation: (presentation: Presentation) => void;
 };
 
 const MAX_PRESENTATIONS = 4;
 
 const useLastPresentationsStore = create<PresentationState>()(
-    persist(
-        (set) => ({
-            presentations: [],
-            addPresentation: (presentation) =>
-                set((state) => {
-                    const newPresentations = [...state.presentations, presentation];
+  persist(
+    (set) => ({
+      presentations: [],
+      addPresentation: (presentation) =>
+        set((state) => {
+          const deduped = state.presentations.filter(
+            (p) => p.id !== presentation.id
+          );
 
-                    if (newPresentations.length > MAX_PRESENTATIONS) {
-                        newPresentations.shift();
-                    }
+          const presentations = [presentation, ...deduped].slice(
+            0,
+            MAX_PRESENTATIONS
+          );
 
-                    return { presentations: newPresentations };
-                }),
+          return { presentations };
         }),
-
-        {
-            name: "presentations-storage",
-        })
-
+    }),
+    {
+      name: "presentations-storage",
+    }
+  )
 );
 
-export const usePresentations = () => useLastPresentationsStore((state) => state.presentations);
-export const useAddPresentation = () => useLastPresentationsStore((state) => state.addPresentation);
+export const usePresentations = () =>
+  useLastPresentationsStore((state) => state.presentations);
+
+export const useAddPresentation = () =>
+  useLastPresentationsStore((state) => state.addPresentation);
