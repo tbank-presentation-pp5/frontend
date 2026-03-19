@@ -6,6 +6,7 @@ import Generate from './generate/Generate'
 import PlanPage from './plans/PlanPage'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Presentation from './presentations/Presentation'
+import MyProjects from './my-projects/MyProjects'
 
 const queryClient = new QueryClient()
 
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path='/generate' element={<Generate />} />
         <Route path='/plans/:id' element={<PlanPage />} />
         <Route path='/presentations/:id' element={<Presentation />} />
+        <Route path='/my-projects' element={<MyProjects/>}/>
       </Routes>
     </QueryClientProvider>
   </BrowserRouter>,

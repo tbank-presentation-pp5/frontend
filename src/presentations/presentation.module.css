@@ -146,7 +146,7 @@
     align-items: center;
     gap: 47px;
     color: #FFFFFF;
-    font-family: "Tinkoff Sans Bold", sans-serif;
+        font-family: "Tinkoff Sans Bold", sans-serif;
     font-size: 24px;
 }
 
@@ -160,10 +160,48 @@
 .pageNumberPros {
     color: #FFFFFF;
     font-family: "Tinkoff Sans Regular", sans-serif;
+    font-size: 18px;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: end;
-    padding-right: 32px;
+    padding-right: 42px;
     padding-bottom: 52px;
+}
+
+.loader {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.sixPoints {
+    width: 1020px;
+    height: 557px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 32px 42px;
+    background-color: #222424;
+    color: #FFFFFF;
+}
+
+.sixPointsGrid {
+    display: grid;
+    grid-template-columns: 260px 260px 260px;
+    gap: 80px;
+    margin-inline: auto;
+}
+
+.pointSubtitle {
+    color: #FFDD2D;
+}
+
+.pointText {
+    font-family: "Tinkoff Sans Regular", sans-serif;
+    font-size: 16px;
+    line-height: 150%;
 }

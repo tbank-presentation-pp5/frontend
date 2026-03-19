@@ -23,10 +23,21 @@ export type Presentation = {
   slides: Slide[]
 }
 
+export type Preview = {
+  elements:
+    {
+      presentationId: number,
+      name: string,
+      updatedAt: string,
+      previewUrls: string[]
+    }[],
+  totalElements: number
+}
+
 export type Slide = {
   slideId: number,
   templateSlideId: number,
-  type: "MAIN" | "SECTION" | "TEXT_WITH_IMAGE" | "PROS_AND_CONS" | "IMAGE_GRID_5",
+  type: "MAIN" | "SECTION" | "TEXT_WITH_IMAGE" | "PROS_AND_CONS" | "IMAGE_GRID_5" | "SIX_POINTS",
   orderNumber: number,
   isNeedPageNumber: boolean,
   content: SlideContent[]

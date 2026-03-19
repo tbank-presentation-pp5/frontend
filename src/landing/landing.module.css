@@ -18,7 +18,9 @@ a {
 .midContainer {
   max-width: 1104px;
   margin-inline: auto;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 64px;
 }
 
@@ -56,10 +58,32 @@ a {
 
 .lastSlideItem {
   width: 250px;
-  height: 198px;
-  padding-block: 4px;
+  display: flex;
+  flex-direction: column;
   border-radius: 8px;
   background-color: #FFFFFF;
-  font-size: 13px;
   font-family: "Neue Sans Regular", sans-serif;
+  color: inherit;
+  text-decoration: none;
+  margin-bottom: 0;
+}
+
+.lastSlideItem > .img {
+  height: 140px;
+}
+
+.lastSlideItem > a {
+  padding-inline: 8px;
+  height: 36px;
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 1.5%;
+  margin-bottom: 0;
+}
+
+.lastUpdated {
+  margin-inline: 8px;
+  font-family: "Neue Sans Regular", sans-serif;
+  font-size: 10px;
+  color: #6F6F71;
 }

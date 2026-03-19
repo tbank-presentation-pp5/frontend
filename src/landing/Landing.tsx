@@ -1,12 +1,15 @@
 import styles from './landing.module.css'
-import { Link, useNavigate } from 'react-router'
+import { Link } from 'react-router'
 import Header from '../ui/header/Header'
 import { Helmet } from "react-helmet"
-import { usePresentations } from '../presentations/useLastPresentationsStore'
+import { useQuery } from '@tanstack/react-query'
+import { GetPreviews } from '../requests'
 
 function App() {
-  const presentations = usePresentations()
-  const navigate = useNavigate()
+  const { data } = useQuery({
+    queryKey: ["lastPresentations"],
+    queryFn: async () => await GetPreviews(0, 16)
+  })
 
   return (
     <>
@@ -24,12 +27,16 @@ function App() {
       </div>
       <div className={styles.midContainer}>
         <h1>Последние проекты</h1>
-        <a>Здесь будут отображаться презентации над которыми вы работали ранее</a>
+        {!data && <a>Здесь будут отображаться презентации над которыми вы работали ранее</a>}
         <div className={styles.lastSlides}>
-          {presentations.map((item) => (
-            <div key={item.id} className={styles.lastSlideItem} onClick={() => navigate(`/presentations/${item.id}`)}>
-              {item.title}
-            </div>
+          {data?.elements.slice(0, 4).map((item) => (
+            <Link key={item.presentationId} className={styles.lastSlideItem} to={`/presentations/${item.presentationId}`}>
+              <div className={styles.img}>
+                <img src={item.previewUrls[0]}/>
+              </div>
+              <a>{item.name}</a>
+              <span className={styles.lastUpdated}>Обновлено: {new Date(item.updatedAt).toLocaleString('ru-RU')}</span>
+            </Link>
           ))}
         </div>
 

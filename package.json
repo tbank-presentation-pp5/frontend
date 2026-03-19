@@ -12,9 +12,11 @@
   "dependencies": {
     "@dnd-kit/react": "^0.3.2",
     "@tanstack/react-query": "^5.90.21",
+    "@types/file-saver": "^2.0.7",
     "@types/react-helmet": "^6.1.11",
     "@types/react-router": "^5.1.20",
     "debounce": "^3.0.0",
+    "file-saver": "^2.0.5",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.71.2",

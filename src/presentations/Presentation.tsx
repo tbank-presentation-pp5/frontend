@@ -2,14 +2,24 @@ import { useQuery } from "@tanstack/react-query"
 import { useParams } from "react-router"
 import { GetPresentation } from "../requests"
 import { PropagateLoader } from "react-spinners"
-import type { Presentation, Slide } from "../types"
+import type { Slide } from "../types"
 import styles from "./presentation.module.css"
-import { useAddPresentation } from "./useLastPresentationsStore"
+import { saveAs } from "file-saver"
+import { Helmet } from "react-helmet"
 
 
 function Presentation() {
     const presId = Number(useParams().id)
-    const addPresentation = useAddPresentation();
+
+    const handleDownload = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/v1/presentations/${presId}/pptx/download`);
+            const blob = await response.blob();
+            saveAs(blob, "download.pptx");
+        } catch (error) {
+            console.error('Ошибка загрузки:', error);
+        }
+    };
 
     const { status, data, error } = useQuery({
         queryKey: ['presentation', presId],
@@ -17,37 +27,35 @@ function Presentation() {
     })
 
     if (status === 'pending') {
-        return <div><PropagateLoader color="#333333" /></div>
+        return <div className={styles.loader}><PropagateLoader color="#333333" /></div>
     }
 
     if (status === 'error') {
         return <span>Ошибка: {error.message}</span>
     }
 
-    if (status === 'success') {
-        const presentation = {
-            id: presId,
-            title: data.name,
-            mainSlide: "hello",
-        };
-        addPresentation(presentation);
-    }
-
     return (
         <div>
+            <Helmet>
+                <title>Просматривайте и редактируйте презентацию</title>
+            </Helmet>
             <div className={styles.headerCont}>
                 <div className={styles.header}>
                     <div>{data.name}</div>
-                    <button className="button-yellow">
-                        Закрыть презентацию
-                    </button>
+                    <div>
+                        <button className="button-white" onClick={handleDownload}>
+                            Экспортировать
+                        </button>
+                        <button className="button-yellow">
+                            Закрыть презентацию
+                        </button>
+                    </div>
                 </div>
             </div>
 
             <div className={styles.presentation}>
                 {data.slides.map((slide) => (
                     <div key={slide.slideId}>
-                        {slide.type}
                         {renderSlide(slide, data.createdAt)}
                     </div>
                 ))}
@@ -81,8 +89,8 @@ const renderSlide = (slide: Slide, createdAt: Date) => {
                         </div>
                     ))}
                     <div className={styles.mainCred}>
-                        <a>Автор презентации</a>
-                        {createdAt.toString()}
+                        <a>Автор презентации: akiraduck</a>
+                        {new Date(createdAt).toLocaleString('ru-RU')}
                     </div>
                 </div>
             )
@@ -131,25 +139,48 @@ const renderSlide = (slide: Slide, createdAt: Date) => {
                         <div>
                             <div className={styles.prosConsIcon}>
                                 <img src="/pros.png" />
-                                <div>{slide.content[1].value}</div>
-                            </div>
-                            <div className={styles.prosConsText}>
-                                {slide.content[0].value}
-                            </div>
-                        </div>
-                        <div>
-                            <div className={styles.prosConsIcon}>
-                                <img src="/cons.png" />
                                 <div>{slide.content[3].value}</div>
                             </div>
                             <div className={styles.prosConsText}>
                                 {slide.content[2].value}
                             </div>
                         </div>
+                        <div>
+                            <div className={styles.prosConsIcon}>
+                                <img src="/cons.png" />
+                                <div>{slide.content[1].value}</div>
+                            </div>
+                            <div className={styles.prosConsText}>
+                                {slide.content[0].value}
+                            </div>
+                        </div>
                     </div>
                     {slide.isNeedPageNumber
                         ? <div className={styles.pageNumberPros}>{slide.slideId}</div>
                         : <div className={styles.pageNumberPros}></div>}
+                </div>
+            )
+        case "SIX_POINTS":
+            return (
+                <div className={styles.sixPoints}>
+                    <h1>{slide.content[12].value}</h1>
+
+                    <div className={styles.sixPointsGrid}>
+                        {[1, 2, 3, 4, 5, 6].map(pointNum => {
+                            const subtitle = slide.content.find(item => item.key === `point_${pointNum}_subtitle`);
+                            const text = slide.content.find(item => item.key === `point_${pointNum}_text`);
+
+                            if (!subtitle || !text) return null;
+
+                            return (
+                                <div key={pointNum} className={styles.pointItem}>
+                                    <h2 className={styles.pointSubtitle}>{subtitle.value}</h2>
+                                    <p className={styles.pointText}>{text.value}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                    <div className={styles.pageNumber}>{slide.slideId}</div>
                 </div>
             )
 

@@ -1,4 +1,4 @@
-import type { Plan, PlanPrompt, PlanSlide, Presentation } from "./types"
+import type { Plan, PlanPrompt, PlanSlide, Presentation, Preview } from "./types"
 
 export async function GeneratePlan(data: PlanPrompt) {
     const response = await fetch(
@@ -85,4 +85,21 @@ export async function GetPresentation(id: number) {
         throw new Error('Что-то пошло не так.')
     }
     return await response.json() as Presentation
+}
+
+export async function GetPreviews(pageNumber: number, pageSize: number) {
+    const response = await fetch(
+        `http://localhost:8080/api/v1/presentations/previews?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+        {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    )
+
+    if (!response.ok) {
+        throw new Error('Что-то пошло не так.')
+    }
+    return await response.json() as Preview
 }
