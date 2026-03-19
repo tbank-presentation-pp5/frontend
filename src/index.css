@@ -1,0 +1,135 @@
+@font-face {
+  font-family: "Tinkoff Sans Regular";
+  src: local("Tinkoff Sans Regular"),
+    local("TinkoffSans-Regular"),
+    url("/src/assets/fonts/TinkoffSans-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Tinkoff Sans Medium";
+  src: local("Tinkoff Sans Medium"),
+    local("TinkoffSans-Medium"),
+    url("/src/assets/fonts/TinkoffSans-Medium.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Tinkoff Sans Bold";
+  src: local("Tinkoff Sans Bold"),
+    local("TinkoffSans-Bold"),
+    url("/src/assets/fonts/TinkoffSans-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Neue Sans Light";
+  src: local("Neue Sans Light"),
+    local("NeueSans-Light"),
+    url("/src/assets/fonts/NeueLight.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Neue Sans Regular";
+  src: local("Neue Sans Regular"),
+    local("NeueSans-Regular"),
+    url("/src/assets/fonts/NeueRegular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Neue Sans Medium";
+  src: local("Neue Sans Medium"),
+    local("NeueSans-Medium"),
+    url("/src/assets/fonts/NeueMedium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Neue Sans Bold";
+  src: local("Neue Sans Bold"),
+    local("NeueSans-Bold"),
+    url("/src/assets/fonts/NeueBold.ttf") format("truetype");
+}
+
+:root {
+  color-scheme: light;
+  color: #333333;
+  background-color: #F6F7F8;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+}
+
+h1 {
+  font-family: "Tinkoff Sans Bold", sans-serif;
+  letter-spacing: 1.5%;
+  font-size: 44px;
+  margin-top: 0;
+}
+
+h2 {
+  font-family: "Tinkoff Sans Bold", sans-serif;
+  letter-spacing: 1.5%;
+  font-size: 24px;
+  margin-top: 0;
+}
+
+h3 {
+  font-family: "Tinkoff Sans Bold", sans-serif;
+  letter-spacing: 1.5%;
+  font-size: 15px;
+  margin-top: 0;
+}
+
+img {
+  width: fit-content;
+  height: fit-content;
+}
+
+.button-yellow {
+  font-family: "Neue Sans Regular", sans-serif;
+  font-size: 15px;
+  padding: 16px 14px;
+  line-height: 1.1;
+  color: inherit;
+  text-decoration: none;
+  background-color: #FFDD2D;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.button-yellow:hover {
+  background-color: #FFCD33;
+}
+
+.button-yellow:active {
+  background-color: #FAB619;
+}
+
+.button-white {
+  font-family: "Neue Sans Regular", sans-serif;
+  font-size: 15px;
+  padding: 16px 28px;
+  margin: 0;
+  line-height: 1.1;
+  color: inherit;
+  text-decoration: none;
+  background-color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.button-white:hover {
+  background-color: #F6F7F8;
+}
+
+.button-white:active {
+  background-color: #EAECEE;
+}
