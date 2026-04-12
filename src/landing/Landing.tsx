@@ -8,7 +8,7 @@ import { GetPreviews } from '../requests'
 function App() {
   const { data } = useQuery({
     queryKey: ["lastPresentations"],
-    queryFn: async () => await GetPreviews(0, 16)
+    queryFn: async () => await GetPreviews(0, 4)
   })
 
   return (
@@ -29,10 +29,10 @@ function App() {
         <h1>Последние проекты</h1>
         {!data && <a>Здесь будут отображаться презентации над которыми вы работали ранее</a>}
         <div className={styles.lastSlides}>
-          {data?.elements.slice(0, 4).map((item) => (
+          {data?.elements.map((item) => (
             <Link key={item.presentationId} className={styles.lastSlideItem} to={`/presentations/${item.presentationId}`}>
-              <div className={styles.img}>
-                <img src={item.previewUrls[0]}/>
+              <div>
+                <img src={item.previewUrls[0]} className={styles.img}/>
               </div>
               <a>{item.name}</a>
               <span className={styles.lastUpdated}>Обновлено: {new Date(item.updatedAt).toLocaleString('ru-RU')}</span>

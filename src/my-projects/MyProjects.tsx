@@ -22,8 +22,8 @@ function MyProjects() {
                 <div className={styles.cardsContainer}>
                     {data?.elements.map((item) => (
                         <Link key={item.presentationId} className={styles.card} to={`/presentations/${item.presentationId}`}>
-                            <div className={styles.cardImg}>
-                                <img src={item.previewUrls[0]} />
+                            <div>
+                                <img src={item.previewUrls[0]} className={styles.cardImg}/>
                             </div>
                             <a className={styles.text}>{item.name}</a>
                             <span className={styles.lastUpdated}>Обновлено: {new Date(item.updatedAt).toLocaleString('ru-RU')}</span>

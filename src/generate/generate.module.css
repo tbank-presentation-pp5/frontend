@@ -24,6 +24,8 @@
     text-align: start;
     border: none;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
 }
 
 .generateCard > a {
@@ -71,14 +73,14 @@
 }
 
 .promptForm > div > span {
-  font-size: 18px;
-  display: inline-block;
+    font-size: 18px;
+    display: inline-block;
 }
 
 .promptForm > span {
-  color: #F52222;
-  font-size: 16px;
-  display: inline-block;
+    color: #F52222;
+    font-size: 16px;
+    display: inline-block;
 }
 
 .loader {

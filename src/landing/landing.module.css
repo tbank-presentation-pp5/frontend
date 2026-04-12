@@ -7,7 +7,7 @@ a {
 }
 
 .topContainer {
-  max-width: 1104px;
+  width: min(1104px,90%);
   margin-inline: auto;
   display: flex;
   flex-direction: row;
@@ -16,7 +16,7 @@ a {
 }
 
 .midContainer {
-  max-width: 1104px;
+  width: min(1104px,90%);
   margin-inline: auto;
   display: flex;
   flex-direction: column;
@@ -25,7 +25,7 @@ a {
 }
 
 .botContainer {
-  max-width: 1104px;
+  width: min(1104px,90%);
   margin-inline: auto;
   display: grid;
   grid-template-columns: 528px 528px;
@@ -68,8 +68,10 @@ a {
   margin-bottom: 0;
 }
 
-.lastSlideItem > .img {
+.img {
   height: 140px;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
 }
 
 .lastSlideItem > a {
