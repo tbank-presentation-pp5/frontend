@@ -5,6 +5,7 @@
 }
 
 .header {
+    font-family: "Neue Sans Regular", sans-serif;
     height: 64px;
     max-width: 1104px;
     margin-inline: auto;

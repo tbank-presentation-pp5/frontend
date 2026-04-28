@@ -17,18 +17,23 @@ function Generate() {
             <h1>С чего начнем?</h1>
 
             <div className={styles.cardsContainer}>
-                <Link to="/generate/text" className={styles.generateCard}>
+                <Link to="/generate/zero" className={styles.generateCard}>
+                    <img src="./AI.png" />  
                     <h2>Сгенерируйте</h2>
+                    <p>Напишите тему презентации, ИИ сделает все остальное</p>
                 </Link>
 
-                <button className={styles.generateCard} disabled>
+                <Link to="/" className={styles.generateCard}>
+                    <img src="./upload.png" />
                     <h2>Загрузите файл</h2>
-                    <span>Coming soon</span>
-                </button>
+                    <p>Загрузите файл со своей системы или гугл диска</p>
+                </Link>
 
-                <button className={styles.generateCard} disabled>
+                <Link to="/" className={styles.generateCard}>
+                    <img src="./write.png" />
                     <h2>Вставьте текст</h2>
-                </button>
+                    <p>Файл не открывается? Вставьте его содержимое</p>
+                </Link>
             </div>
         </div>
     )

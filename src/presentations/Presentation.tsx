@@ -1,26 +1,16 @@
-import { useQuery } from "@tanstack/react-query"
-import { Link, useParams } from "react-router"
-import { GetPresentation } from "../requests"
-import { PropagateLoader } from "react-spinners"
-// import type { Slide } from "../types"
-import styles from "./presentation.module.css"
-import { saveAs } from "file-saver"
-import { Helmet } from "react-helmet"
-import { SLIDE_COMPONENTS } from "./registry"
+import { Link, useParams } from "react-router";
+import { PropagateLoader } from "react-spinners";
+import styles from "./presentation.module.css";
+import { Helmet } from "react-helmet";
+import { useQuery } from "@tanstack/react-query";
+import { GetPresentation } from "../requests";
+import { SLIDE_COMPONENTS } from "./registry";
+import { ExportDropdown } from "./ExportDropdown";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
 function Presentation() {
     const presId = Number(useParams().id)
-
-    const handleDownload = async () => {
-        try {
-            const response = await fetch(`/api/v1/presentations/${presId}/pptx/download`);
-            const blob = await response.blob();
-            saveAs(blob, "download.pptx");
-        } catch (error) {
-            console.error('Ошибка загрузки:', error);
-        }
-    };
 
     const { status, data, error } = useQuery({
         queryKey: ['presentation', presId],
@@ -36,55 +26,57 @@ function Presentation() {
     }
 
     return (
-        <div>
-            <Helmet>
-                <title>Просматривайте и редактируйте презентацию</title>
-            </Helmet>
-            <div className={styles.headerCont}>
-                <div className={styles.header}>
-                    <div>{data.name}</div>
-                    <div className={styles.headerdiv}>
-                        <Link className="button-white" to={'/'}>Вернуться на главную</Link>
-                        <Link className="button-white" to={`/watch-presentations/${presId}`}>Режим докладчика</Link>
-                        <button className="button-yellow" onClick={handleDownload}>
-                            Экспортировать
-                        </button>
+        <GoogleOAuthProvider clientId="213560270121-3r4b1dggeg4ilbcgdka1cmfh3cumcfrm.apps.googleusercontent.com">
+            <div>
+                <Helmet>
+                    <title>Просматривайте и редактируйте презентацию</title>
+                </Helmet>
+                <div className={styles.headerCont}>
+                    <div className={styles.header}>
+                        <div>{data.name}</div>
+                        <div className={styles.headerdiv}>
+                            <Link className="button-white" to={'/'}>Вернуться на главную</Link>
+                            <Link className="button-white" to={`/watch-presentations/${presId}`}>Режим докладчика</Link>
+                            <ExportDropdown presId={presId} />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className={styles.presentation}>
-                {data.slides.map((slide: any) => {
-                    const Component = SLIDE_COMPONENTS[slide.type]?.[slide.templateSlideId];
+                <div className={styles.presentation}>
+                    {data.slides.map((slide: any) => {
+                        const Component = SLIDE_COMPONENTS[slide.type]?.[slide.templateSlideId];
 
-                    return (
-                        <div key={slide.slideId} className={styles.slideWrapper}>
-                            {Component ? (
-                                <Component
-                                    slide={slide}
-                                    createdAt={data.createdAt}
-                                    styles={styles}
-                                    isViewer={false}
-                                />
-                            ) : (
-                                <div className={styles.errorBanner}>
-                                    Шаблон {slide.templateSlideId} ({slide.type}) еще не готов.
-                                </div>
-                            )}
-                        </div>
-                    );
-                })}
-            </div>
-            {/* <div className={styles.presentation}>
+                        return (
+                            <div key={slide.slideId} className={styles.slideWrapper}>
+                                {Component ? (
+                                    <Component
+                                        slide={slide}
+                                        createdAt={data.createdAt}
+                                        styles={styles}
+                                        isViewer={false}
+                                    />
+                                ) : (
+                                    <div className={styles.errorBanner}>
+                                        Шаблон {slide.templateSlideId} ({slide.type}) еще не готов.
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+                {/* <div className={styles.presentation}>
                 {data.slides.map((slide) => (
                     <div key={slide.slideId}>
                         {renderSlide(slide, data.createdAt)}
                     </div>
                 ))}
             </div> */}
-        </div>
+            </div>
+        </GoogleOAuthProvider>
     )
 }
+
+export default Presentation;
 
 // const renderSlide = (slide: Slide, createdAt: Date) => {
 //     switch (slide.type) {
@@ -219,6 +211,3 @@ function Presentation() {
 //             return null
 //     }
 // };
-
-export default Presentation
-

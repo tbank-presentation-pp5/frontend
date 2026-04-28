@@ -8,7 +8,7 @@ import styles from "./generate.module.css"
 import { Helmet } from "react-helmet"
 import { FadeLoader } from "react-spinners"
 
-function Text() {
+function Zero() {
     const navigate = useNavigate()
 
     const generatePlan = useMutation({
@@ -39,7 +39,7 @@ function Text() {
                 <img src="/public/AI.png" />
                 <h1>Генерируем</h1>
             </div>
-            <a>О чем будет ваша презентация?</a>
+            <p>О чем будет ваша презентация?</p>
             <form className={styles.promptForm} onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.flex}>
                     <span>Cлайдов:</span>
@@ -71,4 +71,4 @@ function Text() {
     )
 }
 
-export default Text
+export default Zero

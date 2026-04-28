@@ -1,10 +1,10 @@
 import { Link } from 'react-router'
-import './header.css'
+import styles from "./header.module.css"
 
 function Header() {
     return (
-        <div className='header-container'>
-            <div className='header'>
+        <div className={styles.headerContainer}>
+            <div className={styles.header}>
                 <Link to="/">
                     Главная
                 </Link>

@@ -5,10 +5,13 @@ import { Helmet } from "react-helmet"
 import { useQuery } from '@tanstack/react-query'
 import { GetPreviews } from '../requests'
 
+const DEFAULT_PAGE_SIZE = 4
+const DEFAULT_PAGE_NUMBER = 0
+
 function App() {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["lastPresentations"],
-    queryFn: async () => await GetPreviews(0, 4)
+    queryFn: async () => await GetPreviews(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE)
   })
 
   return (
@@ -18,43 +21,49 @@ function App() {
       </Helmet>
       <Header />
       <div className={styles.topContainer}>
-        <img src='./clock.png' />
+        <img src='/clock.png' alt='' />
         <div>
           <h1>Создавайте презентации эффективнее</h1>
-          <a>Превратите ваши идеи в готовые презентации использующие корпоративный шаблон.<br />Искусственный интеллект анализирует тему или текст вашей презентации и генерирует структурированный текстовый и графический контент, подбирает слайды из крупного шаблона, и создает презентацию которая эффективно донесет информацию до любой аудитории</a>
+          <p>Превратите ваши идеи в готовые презентации использующие корпоративный шаблон.<br />Искусственный интеллект анализирует тему или текст вашей презентации и генерирует структурированный текстовый и графический контент, подбирает слайды из крупного шаблона, и создает презентацию которая эффективно донесет информацию до любой аудитории</p>
           <Link to="generate" className='button-yellow'>Создать презентацию</Link>
         </div>
       </div>
       <div className={styles.midContainer}>
         <h1>Последние проекты</h1>
-        {!data && <a>Здесь будут отображаться презентации над которыми вы работали ранее</a>}
+        {isLoading && <p>Загрузка...</p>}
+        {!isLoading && !data?.elements?.length && <p>Здесь будут отображаться презентации над которыми вы работали ранее</p>}
         <div className={styles.lastSlides}>
-          {data?.elements.map((item) => (
-            <Link key={item.presentationId} className={styles.lastSlideItem} to={`/presentations/${item.presentationId}`}>
-              <div>
-                <img src={item.previewUrls[0]} className={styles.img}/>
-              </div>
-              <a>{item.name}</a>
-              <span className={styles.lastUpdated}>Обновлено: {new Date(item.updatedAt).toLocaleString('ru-RU')}</span>
-            </Link>
-          ))}
+          {data?.elements.map((item) => {
+            const firstPreview = item.previewUrls.length > 0 ? item.previewUrls[0] : undefined
+            const formattedDate = item.updatedAt ? new Date(item.updatedAt).toLocaleString('ru-RU') : '—'
+
+            return (
+              <Link key={item.presentationId} className={styles.lastSlideItem} to={`/presentations/${item.presentationId}`}>
+                <div>
+                  {firstPreview && <img src={firstPreview} className={styles.img} alt={item.name} />}
+                </div>
+                <p>{item.name}</p>
+                <span className={styles.lastUpdated}>Обновлено: {formattedDate}</span>
+              </Link>
+            )
+          })}
         </div>
 
       </div>
       <div className={styles.botContainer}>
         <div>
           <h1>Генерируйте целые презентации с одного предложения</h1>
-          <a>Генерация текстового содержания по теме вашей презентации<br />Настройка количества текста на слайдах<br />Генерация изображений с помощью искусственного интеллекта</a>
+          <p>Генерация текстового содержания по теме вашей презентации<br />Настройка количества текста на слайдах<br />Генерация изображений с помощью искусственного интеллекта</p>
         </div>
         <div className={styles.landingCard} style={{
-          backgroundImage: `url(./landing_card_1.png)`
+          backgroundImage: `url(/landing_card_1.png)`
         }}>
           <h2>Создайте презентацию с нуля</h2>
-          <span>Начните новый проект с генерации текста и выбора шаблона</span>
+          <span>Начните новый проект с одной только темы</span>
           <Link to="/generate" className='button-white'>Начать с нуля</Link>
         </div>
         <div className={styles.landingCard} style={{
-          backgroundImage: `url(./landing_card_2.png)`
+          backgroundImage: `url(/landing_card_2.png)`
         }}>
           <h2>Начните работу с файла</h2>
           <span>Загрузите текстовый документ или уже готовую презентацию</span>
@@ -62,7 +71,7 @@ function App() {
         </div>
         <div>
           <h1>Используйте файл как основу для своей презентации</h1>
-          <a>Загрузите документ (DOC, PDF, TXT) или вставьте его текст<br />ИИ анализирует и структурирует контент по слайдам<br />Используйте свои изображения или сгенерируйте их с помощью искусственного интеллекта</a>
+          <p>Загрузите документ (DOC, PDF, TXT) или вставьте его текст<br />ИИ анализирует и структурирует контент по слайдам<br />Используйте свои изображения или сгенерируйте их с помощью искусственного интеллекта</p>
         </div>
       </div>
     </>

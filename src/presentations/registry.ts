@@ -1,10 +1,9 @@
-// import { Slide1 } from "./slides/MAIN/Slide1";
-// import { Slide3 } from "./slides/TEXT_WITH_IMAGE/Slide3";
-// import { Slide4 } from "./slides/PROS_AND_CONS/Slide4";
-// import { Slide7 } from "./slides/SIX_POINTS/Slide7";
+import { Slide1 } from "./slides/MAIN/Slide1";
+import { Slide3 } from "./slides/TEXT_WITH_IMAGE/Slide3";
+import { Slide4 } from "./slides/PROS_AND_CONS/Slide4";
+import { Slide7 } from "./slides/SIX_POINTS/Slide7";
 // import { Slide6 } from "./slides/CHARTS/Slide6";
 // import { Slide5 } from "./slides/GRIDS/Slide5";
-import { Slide1, Slide3, Slide4, Slide7 } from "./test"
 
 export const SLIDE_COMPONENTS: Record<string, Record<number, React.FC<any>>> = {
   "MAIN": {

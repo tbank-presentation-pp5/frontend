@@ -63,7 +63,7 @@ function PlanPage() {
             </Helmet>
             <div className={styles.mainContainer}>
                 <h1>Редактируйте</h1>
-                <a>Здесь вы можете отредактировать текст каждого слайда и дополнительно настроить свою презентацию</a>
+                <p>Здесь вы можете отредактировать текст каждого слайда и дополнительно настроить свою презентацию</p>
                 <div className={styles.planContainer}>
                     <h2>Содержание</h2>
                     <ChangePlan {...data} />
@@ -138,6 +138,8 @@ function ChangePlan(data: Plan) {
         <form>
             <button
                 type="button"
+                className="button-yellow"
+                style={{ marginBottom: 16 }}
                 onClick={() => setIsDraggingEnabled(prev => !prev)}
             >
                 {isDraggingEnabled ? "Редактировать текст" : "Редактировать порядок"}
