@@ -1,10 +1,16 @@
 .mainContainer {
     max-width: 1104px;
     margin-inline: auto;
-    margin-block: 128px;
+    margin-block: 64px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.mainContainer p {
+    font-family: 'Neue Sans Regular';
+    font-size: 14px;
+    margin-bottom: 64px;
 }
 
 .planContainer {

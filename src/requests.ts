@@ -2,7 +2,7 @@ import type { Plan, PlanPrompt, PlanSlide, Presentation, Preview } from "./types
 
 export async function GeneratePlan(data: PlanPrompt) {
     const response = await fetch(
-        `http://localhost:8080/api/v1/presentation-plans/generate`,
+        `/api/v1/presentation-plans/generate`,
         {
             method: "POST",
             headers: {
@@ -19,7 +19,7 @@ export async function GeneratePlan(data: PlanPrompt) {
 
 export async function GetPlan(id: number) {
     const response = await fetch(
-        `http://localhost:8080/api/v1/presentation-plans/${id}`,
+        `/api/v1/presentation-plans/${id}`,
         {
             method: "GET",
             headers: {
@@ -38,7 +38,7 @@ export async function UpdatePlan(data: PlanSlide[], id: number) {
     const payload = { plan: data }
 
     const response = await fetch(
-        `http://localhost:8080/api/v1/presentation-plans/${id}`,
+        `/api/v1/presentation-plans/${id}`,
         {
             method: "PUT",
             headers: {
@@ -54,7 +54,7 @@ export async function UpdatePlan(data: PlanSlide[], id: number) {
 
 export async function GeneratePresentationFromPlan(templatePresentationId: number = 1, planId: number) {
     const response = await fetch(
-        `http://localhost:8080/api/v1/presentations/generate/plan`,
+        `/api/v1/presentations/generate/plan`,
         {
             method: "POST",
             headers: {
@@ -72,7 +72,7 @@ export async function GeneratePresentationFromPlan(templatePresentationId: numbe
 
 export async function GetPresentation(id: number) {
     const response = await fetch(
-        `http://localhost:8080/api/v1/presentations/${id}`,
+        `/api/v1/presentations/${id}`,
         {
             method: "GET",
             headers: {
@@ -89,9 +89,10 @@ export async function GetPresentation(id: number) {
 
 export async function GetPreviews(pageNumber: number, pageSize: number) {
     const response = await fetch(
-        `http://localhost:8080/api/v1/presentations/previews?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+        `/api/v1/presentations/previews?pageNumber=${pageNumber}&pageSize=${pageSize}`,
         {
             method: "GET",
+            credentials: 'include',
             headers: {
                 "Content-Type": "application/json",
             },

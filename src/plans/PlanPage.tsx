@@ -5,17 +5,27 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { GeneratePresentationFromPlan, GetPlan, UpdatePlan } from "../requests"
 import styles from "./planpage.module.css"
 import type { Plan, PlanSlide } from "../types"
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import debounce from "debounce"
-import { useSortable } from '@dnd-kit/react/sortable'
-import { DragDropProvider } from "@dnd-kit/react"
 import { DotLoader } from "react-spinners"
+import { CSS } from '@dnd-kit/utilities';
+import {
+    DndContext,
+    type DragEndEvent,
+} from "@dnd-kit/core"
+import {
+    SortableContext,
+    useSortable,
+    verticalListSortingStrategy,
+    arrayMove
+} from "@dnd-kit/sortable"
 
 type SortableProps = {
     id: string | number;
     index: number;
     children: React.ReactNode;
     tabIndex?: number;
+    isDraggingEnabled: boolean;
 }
 
 function PlanPage() {
@@ -53,14 +63,14 @@ function PlanPage() {
             </Helmet>
             <div className={styles.mainContainer}>
                 <h1>Редактируйте</h1>
-                <a>Здесь вы можете отредактировать текст каждого слайда и дополнительно настроить свою презентацию</a>
+                <p>Здесь вы можете отредактировать текст каждого слайда и дополнительно настроить свою презентацию</p>
                 <div className={styles.planContainer}>
                     <h2>Содержание</h2>
                     <ChangePlan {...data} />
                 </div>
             </div>
             <div className={styles.submitButton}>
-                <button className="button-yellow" onClick={() => generatePres.mutate({template: 1, pointId})}>Сгенерировать</button>
+                <button className="button-yellow" onClick={() => generatePres.mutate({ template: 1, pointId })}>Сгенерировать</button>
             </div>
         </>
     )
@@ -68,6 +78,7 @@ function PlanPage() {
 
 function ChangePlan(data: Plan) {
     const { control, subscribe, register } = useForm({ defaultValues: { fields: data.plan } })
+    const [isDraggingEnabled, setIsDraggingEnabled] = useState(false)
 
     const { fields, remove, append, move } = useFieldArray({
         control,
@@ -87,13 +98,26 @@ function ChangePlan(data: Plan) {
         [savePlan]
     )
 
-    const handleDragEnd = (event) => {
-        const { source, target } = event.operation
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+        if (!over) return;
 
-        if (target) {
-            move(source.id, target.id)
-        }
-    }
+        const oldIndex = fields.findIndex(f => f.id === active.id);
+        const newIndex = fields.findIndex(f => f.id === over.id);
+
+        if (oldIndex === newIndex) return;
+
+        const reordered = arrayMove(fields, oldIndex, newIndex);
+
+        move(oldIndex, newIndex);
+
+        const payload: PlanSlide[] = reordered.map((item) => ({
+            title: item.title,
+            points: item.points,
+        }));
+
+        debounceSave(payload);
+    };
 
     useEffect(() => {
         const callback = subscribe({
@@ -112,28 +136,55 @@ function ChangePlan(data: Plan) {
 
     return (
         <form>
-            <DragDropProvider onDragEnd={handleDragEnd}>
+            <button
+                type="button"
+                className="button-yellow"
+                style={{ marginBottom: 16 }}
+                onClick={() => setIsDraggingEnabled(prev => !prev)}
+            >
+                {isDraggingEnabled ? "Редактировать текст" : "Редактировать порядок"}
+            </button>
+            <DndContext onDragEnd={handleDragEnd}>
                 <ul className={styles.planlist}>
-                    {fields.map((field, fieldId) => (
-                        <Sortable key={fieldId} id={field.id} index={Number(field.id)} tabIndex={fieldId}>
-                            <h2 className={styles.h2}>{fieldId + 1}</h2>
-                            <div>
-                                <div className={styles.flex}>
-                                    <input className={styles.slideTitle} {...register(`fields.${fieldId}.title`)} key={field.id} />
-                                    <button type="button" className={styles.delete} onClick={() => { remove(fieldId) }} />
+                    <SortableContext
+                        items={fields.map(f => f.id)}
+                        strategy={verticalListSortingStrategy}
+                    >
+                        {fields.map((field, index) => (
+                            <Sortable
+                                key={field.id}
+                                id={field.id}
+                                index={index}
+                                tabIndex={index}
+                                isDraggingEnabled={isDraggingEnabled}
+                            >
+                                <h2 className={styles.h2}>{index + 1}</h2>
+                                <div>
+                                    <div className={styles.flex}>
+                                        <input
+                                            className={styles.slideTitle}
+                                            disabled={isDraggingEnabled}
+                                            style={{ pointerEvents: isDraggingEnabled ? 'none' : 'auto' }}
+                                            {...register(`fields.${index}.title`)}
+                                        />
+                                        <button type="button" className={styles.delete} onClick={() => { remove(index) }} />
+                                    </div>
+                                    <ul className={styles.points}>
+                                        {field.points?.map((_, pointIndex) => (
+                                            <li className={styles.pointitem} key={pointIndex} style={{ pointerEvents: isDraggingEnabled ? 'none' : 'auto' }}>
+                                                <input
+                                                    disabled={isDraggingEnabled}
+                                                    {...register(`fields.${index}.points.${pointIndex}`)}
+                                                />
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
-                                <ul className={styles.points}>
-                                    {field.points?.map((_, pointIndex) => (
-                                        <li className={styles.pointitem} key={pointIndex}>
-                                            <input {...register(`fields.${fieldId}.points.${pointIndex}`)} />
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </Sortable>
-                    ))}
+                            </Sortable>
+                        ))}
+                    </SortableContext>
                 </ul>
-            </DragDropProvider>
+            </DndContext>
             <button type="button" className={styles.addSlide} onClick={() => { append({ title: "Новый слайд", points: [] }) }}>
                 +
             </button>
@@ -141,11 +192,28 @@ function ChangePlan(data: Plan) {
     )
 }
 
-function Sortable({ id, index, children, tabIndex }: SortableProps) {
-    const { ref } = useSortable({ id, index });
+function Sortable({ id, children, isDraggingEnabled }: SortableProps) {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({ id, disabled: !isDraggingEnabled });
+
+    const style: React.CSSProperties = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
 
     return (
-        <li ref={ref} className={styles.planPoint} tabIndex={tabIndex}>
+        <li
+            ref={setNodeRef}
+            className={styles.planPoint}
+            style={style}
+            {...attributes}
+            {...(isDraggingEnabled ? listeners : {})}
+        >
             {children}
         </li>
     );

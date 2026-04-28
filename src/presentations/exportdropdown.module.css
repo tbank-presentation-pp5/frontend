@@ -1,0 +1,46 @@
+.exportDropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.exportButton {
+    padding: 8px 16px;
+    background: #facc15;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.exportMenu {
+    position: absolute;
+    right: 0;
+    margin-top: 8px;
+    width: 200px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 4px;
+    z-index: 100;
+}
+
+.exportItem {
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.exportItem:hover,
+.exportItem:focus {
+    background: #f3f4f6;
+    outline: none;
+}
+
+.exportItem:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

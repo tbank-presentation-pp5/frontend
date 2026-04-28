@@ -1,4 +1,5 @@
-a {
+.topContainer > div > p,
+.botContainer > div > p {
   font-family: "Neue Sans Regular", sans-serif;
   font-size: 15px;
   line-height: 225%;
@@ -7,7 +8,7 @@ a {
 }
 
 .topContainer {
-  max-width: 1104px;
+  width: min(1104px,90%);
   margin-inline: auto;
   display: flex;
   flex-direction: row;
@@ -16,7 +17,7 @@ a {
 }
 
 .midContainer {
-  max-width: 1104px;
+  width: min(1104px,90%);
   margin-inline: auto;
   display: flex;
   flex-direction: column;
@@ -24,8 +25,15 @@ a {
   margin-bottom: 64px;
 }
 
+.midContainer > p {
+  font-family: "Neue Sans Regular", sans-serif;
+  font-size: 15px;
+  color: #6F6F71;
+  margin-bottom: 28px;
+}
+
 .botContainer {
-  max-width: 1104px;
+  width: min(1104px,90%);
   margin-inline: auto;
   display: grid;
   grid-template-columns: 528px 528px;
@@ -68,21 +76,24 @@ a {
   margin-bottom: 0;
 }
 
-.lastSlideItem > .img {
+.img {
   height: 140px;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
 }
 
-.lastSlideItem > a {
-  padding-inline: 8px;
+.lastSlideItem > p {
+  padding-inline: 6px;
   height: 36px;
-  font-size: 13px;
   line-height: 1.5;
+  font-size: 13px;
   letter-spacing: 1.5%;
-  margin-bottom: 0;
+  margin: 0;
 }
 
 .lastUpdated {
-  margin-inline: 8px;
+  padding-inline: 6px;
+  margin-bottom: 4px;
   font-family: "Neue Sans Regular", sans-serif;
   font-size: 10px;
   color: #6F6F71;
