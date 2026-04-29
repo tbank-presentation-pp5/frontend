@@ -1,0 +1,29 @@
+.mainSlide {
+    width: 1020px;
+    height: 557px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #333333;
+    border-radius: 8px;
+    padding: 32px 42px;
+    color: #FFFFFF;
+}
+
+.mainSlide > div > a {
+    margin-bottom: 0;
+}
+
+.mainField {
+    font-family: 'Tinkoff Sans Bold', sans-serif;
+    font-size: 58px;
+}
+
+.mainCred {
+    height: 86px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Tinkoff Sans Bold', sans-serif;
+    font-size: 24px;
+}

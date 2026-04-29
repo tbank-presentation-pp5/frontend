@@ -1,0 +1,32 @@
+.gridSlide {
+    width: 1020px;
+    height: 557px;
+    background-color: #222424;
+    border-radius: 8px;
+    padding: 32px 42px;
+    color: #FFFFFF;
+}
+
+.wrapper {
+    width: 822px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 256px);
+    gap: 26px;
+}
+
+.wrapper img {
+    height: 256px;
+    border-radius: 12px;
+}
+
+.imgItem:nth-child(4) {
+    grid-column: span 2;
+}
+
+.pageNumber {
+    display: flex;
+    justify-content: end;
+    font-family: "Tinkoff Sans Regular", sans-serif;
+    font-size: 14px;
+}

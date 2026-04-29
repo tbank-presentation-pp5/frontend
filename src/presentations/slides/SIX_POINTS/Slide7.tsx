@@ -1,6 +1,7 @@
 import { getFields } from "../../slideHelper";
+import styles from './six-points.module.css';
 
-export const Slide7 = ({ slide, styles }: any) => {
+export const Slide7 = ({ slide }: any) => {
     const f = getFields(slide.content);
     const points = [1, 2, 3, 4, 5, 6];
     return (
@@ -15,11 +16,14 @@ export const Slide7 = ({ slide, styles }: any) => {
 
                     return (
                         <div key={num} className={styles.pointItem}>
-                            <h2 className={styles.pointSubtitle}>{subtitle}</h2>
+                            <h2 className={styles.pointTitle}>{subtitle}</h2>
                             <p className={styles.pointText}>{text}</p>
                         </div>
                     );
                 })}
+            </div>
+            <div className={styles.image}>
+                    <img src="/six_points_brain.png" alt="brain" />
             </div>
             {slide.isNeedPageNumber && (
                 <div className={styles.pageNumber}>{slide.orderNumber}</div>

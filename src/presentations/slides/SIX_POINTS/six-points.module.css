@@ -1,0 +1,79 @@
+.sixPoints {
+    width: 1020px;
+    height: 557px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 32px 42px;
+    background-color: #222424;
+    color: #FFFFFF;
+    text-align: center;
+    position: relative;
+}
+
+.sixPoints h1 {
+    margin-bottom: 65px;
+    max-height: 50px;
+}
+
+.sixPointsGrid {
+    display: grid;
+    grid-template-columns: 320px 320px;
+    gap: 6px;
+    column-gap: 360px;
+    margin-inline: auto;
+    height: 331px;
+    /* background-image: url('/six_points_brain.png');
+    background-repeat: no-repeat;
+    background-position: center; */
+}
+
+.image {
+    position: absolute;
+    height: 276px;
+    width: 538px;
+    top: 204px;
+    left: 282px;
+    background-image: url('/six_points_brain.png');
+}
+
+.pointItem:nth-child(even){
+    text-align: left;
+}
+
+.pointItem:nth-child(odd){
+    text-align: right;
+}
+
+.pointTitle {
+    color: #FFFFFF;
+    margin: 0;
+    font-size: 18px;
+    height: 26px;
+    width: 320px;
+    margin-bottom: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pointText {
+    font-family: "Tinkoff Sans Regular", sans-serif;
+    font-size: 14px;
+    color: #C9C9C9;
+    height: 70px;
+    margin: 0px;
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;           /* Number of lines to show before truncating */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.pageNumber {
+    display: flex;
+    justify-content: end;
+    font-family: "Tinkoff Sans Regular", sans-serif;
+    font-size: 14px;
+}

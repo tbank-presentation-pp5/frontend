@@ -1,6 +1,7 @@
 import { getFields } from "../../slideHelper";
+import styles from './pros-and-cons.module.css';
 
-export const Slide4 = ({ slide, styles }: any) => {
+export const Slide4 = ({ slide }: any) => {
   const f = getFields(slide.content);
   return (
     <div className={styles.sectionSlide}>
@@ -15,7 +16,7 @@ export const Slide4 = ({ slide, styles }: any) => {
           <div className={styles.prosConsText}>{f.cons_text?.value}</div>
         </div>
       </div>
-      {slide.isNeedPageNumber && <div className={styles.pageNumber}>{slide.orderNumber}</div>}
+      {slide.isNeedPageNumber && <div className={styles.pageNumberPros}>{slide.orderNumber}</div>}
     </div>
   );
 };

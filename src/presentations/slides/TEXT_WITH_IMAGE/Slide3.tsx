@@ -1,6 +1,7 @@
 import { getFields } from "../../slideHelper";
+import styles from './text-with-image.module.css';
 
-export const Slide3 = ({ slide, styles }: any) => {
+export const Slide3 = ({ slide }: any) => {
     const f = getFields(slide.content);
     return (
         <div className={styles.imageSlide}>
@@ -8,7 +9,7 @@ export const Slide3 = ({ slide, styles }: any) => {
                 {f.title?.value}
             </div>
             <div className={styles.textContainer}>
-                <div className={styles.textContent}>
+                <div>
                     {f.text?.value}
                 </div>
                 {f.image?.image?.url && (

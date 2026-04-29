@@ -8,36 +8,6 @@
     margin-top: 64px;
 }
 
-.mainSlide {
-    width: 1020px;
-    height: 557px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: #333333;
-    border-radius: 8px;
-    padding: 32px 42px;
-    color: #FFFFFF;
-}
-
-.mainSlide > div > a {
-    margin-bottom: 0;
-}
-
-.mainField {
-    font-family: 'Tinkoff Sans Bold', sans-serif;
-    font-size: 58px;
-}
-
-.mainCred {
-    height: 86px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'Tinkoff Sans Bold', sans-serif;
-    font-size: 24px;
-}
-
 .sectionSlide {
     width: 1104px;
     height: 621px;
@@ -61,35 +31,6 @@
     font-family: 'Tinkoff Sans Bold', sans-serif;
     font-size: 58px;
     color: #FFFFFF;
-}
-
-.imageSlide {
-    width: 1020px;
-    height: 557px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 32px 42px;
-    background-color: #222424;
-    color: #FFFFFF;
-}
-
-.imageSlide img {
-    width: 402px;
-    height: 302px;
-}
-
-.imageTitle {
-    font-family: 'Tinkoff Sans Bold', sans-serif;
-    font-size: 58px;
-    color: #FFFFFF;
-}
-
-.textContainer {
-    font-family: "Tinkoff Sans Regular", sans-serif;
-    font-size: 32px;
-    display: flex;
 }
 
 .pageNumber {
@@ -117,58 +58,6 @@
     align-items: center;
 }
 
-.prosConsLeft {
-    color: #FFFFFF;
-    height: 88%;
-    width: 335px;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 80px;
-    background-color: #333333;
-    padding: 36px;
-}
-
-.prosConsRight {
-    display: flex;
-    padding-right: 63px;
-    flex-direction: column;
-    gap: 62px;
-}
-
-.prosConsRight > div {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.prosConsIcon {
-    display: flex;
-    align-items: center;
-    gap: 47px;
-    color: #FFFFFF;
-        font-family: "Tinkoff Sans Bold", sans-serif;
-    font-size: 24px;
-}
-
-.prosConsText {
-    margin-left: 80px;
-    font-family: "Tinkoff Sans Regular", sans-serif;
-    font-size: 16px;
-    color: #C9C9C9;
-}
-
-.pageNumberPros {
-    color: #FFFFFF;
-    font-family: "Tinkoff Sans Regular", sans-serif;
-    font-size: 18px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    padding-right: 42px;
-    padding-bottom: 52px;
-}
-
 .headerdiv {
     display: flex;
     gap: 12px;
@@ -180,38 +69,4 @@
     height: 100vh;
     justify-content: center;
     align-items: center;
-}
-
-.sixPoints {
-    width: 1020px;
-    height: 557px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 32px 42px;
-    background-color: #222424;
-    color: #FFFFFF;
-        text-align: center;
-}
-
-.sixPointsGrid {
-    display: grid;
-    grid-template-columns: 420px 420px;
-    gap: 30px;
-    margin-inline: auto;
-    background-image: url('/six_points_brain.png');
-    background-repeat: no-repeat;
-    background-position: center;
-}
-
-.pointSubtitle {
-    color: #FFFFFF;
-}
-
-.pointText {
-    font-family: "Tinkoff Sans Regular", sans-serif;
-    font-size: 16px;
-    line-height: 150%;
-    color: #C9C9C9;
 }
