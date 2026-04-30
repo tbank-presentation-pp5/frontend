@@ -9,9 +9,9 @@ export const Slide3 = ({ slide }: any) => {
                 {f.title?.value}
             </div>
             <div className={styles.textContainer}>
-                <div>
+                <p>
                     {f.text?.value}
-                </div>
+                </p>
                 {f.image?.image?.url && (
                     <img 
                         src={f.image.image.url} 

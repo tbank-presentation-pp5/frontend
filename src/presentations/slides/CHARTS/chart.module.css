@@ -1,1 +1,37 @@
-/* TODO */
+.slide {
+    width: 1020px;
+    height: 557px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding: 32px 42px;
+    background-color: #222424;
+    color: #FFFFFF;
+}
+
+.pageNumber {
+    display: flex;
+    justify-content: end;
+    font-family: "Tinkoff Sans Regular", sans-serif;
+    font-size: 14px;
+    align-self: end;
+}
+
+.textContainer {
+    font-family: "Tinkoff Sans Regular", sans-serif;
+    display:flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 60px;
+    margin-left: 40px;
+    width: 400px;
+}
+
+.textContainer p {
+    color: #C9C9C9;
+}
+
+.chartContainer{
+    width: 500px;
+    height: 500px;
+}

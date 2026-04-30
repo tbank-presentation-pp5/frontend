@@ -11,6 +11,7 @@
 }
 
 .imageSlide img {
+    align-self: center;
     width: 402px;
     height: 302px;
 }
