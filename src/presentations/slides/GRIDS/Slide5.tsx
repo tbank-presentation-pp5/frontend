@@ -1,4 +1,4 @@
-import styles from './main.module.css';
+import styles from './grids.module.css';
 
 export const Slide5 = ({ slide }: any) => {
     return (

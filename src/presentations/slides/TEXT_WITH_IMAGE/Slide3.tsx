@@ -1,21 +1,25 @@
 import { getFields } from "../../slideHelper";
 import styles from './text-with-image.module.css';
+import { EditableText } from "../EditableText";
+import { EditableImage } from "../EditableImage";
 
 export const Slide3 = ({ slide }: any) => {
-    const f = getFields(slide.content);
+    const fields = getFields(slide.content);
     return (
         <div className={styles.imageSlide}>
-            <div className={styles.imageTitle}>
-                {f.title?.value}
-            </div>
+            <EditableText
+                field={fields.title}
+                className={styles.imageTitle}
+            />
             <div className={styles.textContainer}>
-                <p>
-                    {f.text?.value}
-                </p>
-                {f.image?.image?.url && (
+                <EditableText 
+                    field={fields.text}
+                    className={styles.textContent}
+                />
+                {fields.image?.image?.url && (
                     <img 
-                        src={f.image.image.url} 
-                        alt={f.title?.value} 
+                        src={fields.image.image.url} 
+                        alt={fields.title?.value} 
                     />
                 )}
             </div>

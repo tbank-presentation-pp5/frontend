@@ -1,29 +1,33 @@
 import { getFields } from "../../slideHelper";
 import styles from './six-points.module.css';
+import { EditableText } from "../EditableText";
 
 export const Slide7 = ({ slide }: any) => {
     const f = getFields(slide.content);
     const points = [1, 2, 3, 4, 5, 6];
     return (
         <div className={styles.sixPoints}>
-            <h1>{f.title?.value}</h1>
+            <EditableText
+                field={f.title}
+                className={styles.title} 
+            />
             <div className={styles.sixPointsGrid}>
                 {points.map(num => {
-                    const subtitle = f[`point_${num}_subtitle`]?.value;
-                    const text = f[`point_${num}_text`]?.value;
+                    const subtitle = f[`point_${num}_subtitle`];
+                    const text = f[`point_${num}_text`];
 
                     if (!subtitle) return null;
 
                     return (
                         <div key={num} className={styles.pointItem}>
-                            <h2 className={styles.pointTitle}>{subtitle}</h2>
-                            <p className={styles.pointText}>{text}</p>
+                            <EditableText field={subtitle} className={styles.pointTitle}/>
+                            <EditableText field={text} className={styles.pointText}/>
                         </div>
                     );
                 })}
             </div>
             <div className={styles.image}>
-                    <img src="/six_points_brain.png" alt="brain" />
+                <img src="/six_points_brain.png" alt="brain" />
             </div>
             {slide.isNeedPageNumber && (
                 <div className={styles.pageNumber}>{slide.orderNumber}</div>

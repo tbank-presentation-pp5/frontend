@@ -3,13 +3,13 @@ import styles from './chart.module.css';
 import { Chart as ChartJS } from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Pie } from "react-chartjs-2";
-
+import { EditableText } from "../EditableText";
 
 ChartJS.register(ChartDataLabels);
 
 export const Slide6 = ({ slide }: any) => {
-    const f = getFields(slide.content);
-    const chartData = f.chart?.value;
+    const fields = getFields(slide.content);
+    const chartData = fields.chart?.value;
 
     const data = {
         labels: chartData?.data.map((item: any) => item.label) || [],
@@ -86,8 +86,14 @@ export const Slide6 = ({ slide }: any) => {
     return (
         <div className={styles.slide}>
             <div className={styles.textContainer}>
-                <h1>{f.title?.value}</h1>
-                <p>{f.text?.value}</p>
+                <EditableText 
+                    field={fields.title}
+                    className={styles.title}
+                />
+                <EditableText 
+                    field={fields.text}
+                    className={styles.text}
+                />
             </div>
             <div className={styles.chartContainer}>
                 <Pie data={data} options={options}/>
