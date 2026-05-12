@@ -12,9 +12,16 @@
     position: relative;
 }
 
-.sixPoints h1 {
-    margin-bottom: 65px;
-    max-height: 50px;
+.title {
+    color: #FFFFFF;
+    font-size: 44px;
+    letter-spacing: 1.5%;
+    font-family: 'Tinkoff Sans Bold', sans-serif;
+    margin-bottom: 50px;
+    text-align: center;
+    position: relative;
+    height: 54px;
+    width: 100%;
 }
 
 .sixPointsGrid {
@@ -28,43 +35,35 @@
 
 .image {
     position: absolute;
+    display: block;
     height: 276px;
     width: 538px;
     top: 204px;
     left: 282px;
-    background-image: url('/six_points_brain.png');
 }
 
-.pointItem:nth-child(even){
-    text-align: left;
-}
-
-.pointItem:nth-child(odd){
+.pointItem:nth-child(odd) textarea{
     text-align: right;
 }
 
 .pointTitle {
+    font-family: 'Tinkoff Sans Bold', sans-serif;
+    letter-spacing: 1.5%;
     color: #FFFFFF;
     margin: 0;
     font-size: 18px;
-    height: 26px;
+    height: 42px;
     width: 320px;
-    margin-bottom: 18px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
 }
 
 .pointText {
     font-family: "Tinkoff Sans Regular", sans-serif;
     font-size: 14px;
     color: #C9C9C9;
-    height: 70px;
+    height: 60px;
     margin: 0px;
-    display: -webkit-box;
-    line-clamp: 3;
-    -webkit-line-clamp: 3;           /* Number of lines to show before truncating */
-    -webkit-box-orient: vertical;
+    width: 320px;
     overflow: hidden;
 }
 

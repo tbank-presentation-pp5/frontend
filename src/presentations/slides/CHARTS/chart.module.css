@@ -21,14 +21,27 @@
     font-family: "Tinkoff Sans Regular", sans-serif;
     display:flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 20px;
     margin-top: 60px;
     margin-left: 40px;
     width: 400px;
 }
 
-.textContainer p {
+.text {
     color: #C9C9C9;
+    background-color: transparent;
+    font-family: 'Tinkoff Sans', sans-serif;
+    font-size: 16px;
+    width: 400px;
+    height: 300px;
+}
+
+.title {
+    color: #FFFFFF;
+    font-family: 'Tinkoff Sans Bold', sans-serif;
+    font-size: 42px;
+    width: 400px;
+    height: 150px;
 }
 
 .chartContainer{

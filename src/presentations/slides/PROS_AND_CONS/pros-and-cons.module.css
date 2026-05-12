@@ -37,7 +37,7 @@
     align-items: center;
     gap: 47px;
     color: #FFFFFF;
-        font-family: "Tinkoff Sans Bold", sans-serif;
+    font-family: "Tinkoff Sans Bold", sans-serif;
     font-size: 24px;
 }
 
@@ -46,6 +46,15 @@
     font-family: "Tinkoff Sans Regular", sans-serif;
     font-size: 16px;
     color: #C9C9C9;
+    height: 60px;
+    width: 400px;
+}
+
+.prosConsIcon textarea {
+    height: 30px;
+    width: 400px;
+    white-space: pre;
+    overflow: auto;
 }
 
 .pageNumberPros {
@@ -58,4 +67,13 @@
     justify-content: end;
     padding-right: 42px;
     padding-bottom: 52px;
+}
+
+.title {
+    color: #FFFFFF;
+    font-family: 'Tinkoff Sans Bold', sans-serif;
+    font-size: 44px;
+    width: 320px;
+    height: 300px;
+    letter-spacing: 1.5%;
 }
