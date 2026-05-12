@@ -7,6 +7,8 @@ import { GetPresentation } from "../requests";
 import { SLIDE_COMPONENTS } from "./registry";
 import { ExportDropdown } from "./ExportDropdown";
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { useEffect } from "react";
+import { wsManager } from "../ws/websocketManager";
 
 
 function Presentation() {
@@ -16,6 +18,15 @@ function Presentation() {
         queryKey: ['presentation', presId],
         queryFn: async () => await GetPresentation(presId),
     })
+
+    useEffect(() => {
+        if (!isNaN(presId)) {
+            wsManager.connect(presId)
+        }
+        return () => {
+            wsManager.disconnect()
+        }
+    }, [presId])
 
     if (status === 'pending') {
         return <div className={styles.loader}><PropagateLoader color="#333333" /></div>
