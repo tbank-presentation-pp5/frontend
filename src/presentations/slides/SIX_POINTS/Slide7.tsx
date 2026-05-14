@@ -1,6 +1,6 @@
 import { getFields } from "../../slideHelper";
 import styles from './six-points.module.css';
-import { EditableText } from "../EditableText";
+import { EditableText } from "../../editableFields/EditableText";
 
 export const Slide7 = ({ slide }: any) => {
     const f = getFields(slide.content);

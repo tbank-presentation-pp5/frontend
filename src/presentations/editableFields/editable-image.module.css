@@ -1,0 +1,52 @@
+.editableImage {
+  position: relative;
+  display: inline-block;
+  height: fit-content;
+}
+
+.editableImage img {
+  display: block;
+}
+
+.editableImageInput {
+  display: none;
+}
+
+.editableImageOverlay {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  background: rgba(0, 0, 0, 0.25);
+  border: 2px solid #428BF9;
+}
+
+.editableImage:hover .editableImageOverlay {
+  opacity: 1;
+}
+
+.editableImageButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 10px;
+  background: #F2F4F7;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}

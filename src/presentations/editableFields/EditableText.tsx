@@ -13,15 +13,14 @@ export const EditableText: React.FC<EditableTextProps> = ({
   field,
   className,
 }) => {
-  const { value, setValue, isPending, hasError } = useEditableTextField(field.fieldId, field.value);
+  const { value, setValue, hasError } = useEditableTextField(field.fieldId, field.value);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setValue(e.target.value);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setValue(event.target.value);
   };
 
   return (
     <div 
-    // {...isPending && { style: { opacity: 0.5 } }}
     {...hasError && { style: { color: "red" } }}>
       <textarea
         value={value}
@@ -29,7 +28,7 @@ export const EditableText: React.FC<EditableTextProps> = ({
         className={className}
         style={{
           backgroundColor: "transparent",
-          border: "none",
+          border: 'none',
           resize: "none",
           scrollbarWidth: "none",
           padding: 0,

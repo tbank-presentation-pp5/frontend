@@ -1,6 +1,6 @@
 import { getFields } from "../../slideHelper";
 import styles from './pros-and-cons.module.css';
-import { EditableText } from "../EditableText";
+import { EditableText } from "../../editableFields/EditableText";
 
 export const Slide4 = ({ slide }: any) => {
   const fields = getFields(slide.content);

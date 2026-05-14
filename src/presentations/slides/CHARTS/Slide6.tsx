@@ -3,7 +3,7 @@ import styles from './chart.module.css';
 import { Chart as ChartJS } from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Pie } from "react-chartjs-2";
-import { EditableText } from "../EditableText";
+import { EditableText } from "../../editableFields/EditableText";
 
 ChartJS.register(ChartDataLabels);
 

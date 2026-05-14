@@ -1,12 +1,19 @@
 import styles from './grids.module.css';
+import { getFields } from "../../slideHelper";
+import { EditableImage } from "../../editableFields/EditableImage";
 
 export const Slide5 = ({ slide }: any) => {
+    const fields = getFields(slide.content);
     return (
         <div className={styles.gridSlide}>
             <div className={styles.wrapper}>
-              {slide.content.map(point => 
-                <div key={point} className={styles.imgItem}>
-                  <img src={point.image?.url}/>
+              {Object.values(fields).map((point: any) => 
+                <div key={point.fieldId} className={styles.imgItem}>
+                  <EditableImage 
+                    field={point} 
+                    alt={point.title?.value}
+                    className={styles.editableImage} 
+                  />
                 </div>
               )}
             </div>

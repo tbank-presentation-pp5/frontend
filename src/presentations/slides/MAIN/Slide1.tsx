@@ -1,6 +1,6 @@
 import { getFields } from "../../slideHelper";
 import styles from './main.module.css';
-import { EditableText } from "../EditableText";
+import { EditableText } from "../../editableFields/EditableText";
 
 export const Slide1 = ({ slide, createdAt }: any) => {
   const fields = getFields(slide.content);
