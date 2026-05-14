@@ -23,13 +23,14 @@ COPY . .
 
 # [optional] tests & build
 ENV NODE_ENV=production
-RUN bun run build
+# RUN bun run build    ---- НУЖНО СНАЧАЛА ИСПРАВИТЬ ВСЕ ОШИБКИ ТИПИЗАЦИИ TS
+RUN bunx --bun vite build
 
 # copy production dependencies and source code into final image
 FROM base AS release
 COPY --from=install /temp/prod/node_modules node_modules
-COPY --from=prerelease /usr/src/app/index.ts .
 COPY --from=prerelease /usr/src/app/package.json .
+COPY --from=prerelease /usr/src/app/dist ./dist
 
 # run the app
 USER bun
