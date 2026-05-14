@@ -1,38 +1,19 @@
-# use the official Bun image
-# see all versions at https://hub.docker.com/r/oven/bun/tags
-FROM oven/bun:1 AS base
-WORKDIR /usr/src/app
+FROM oven/bun:1 AS builder
 
-# install dependencies into temp directory
-# this will cache them and speed up future builds
-FROM base AS install
-RUN mkdir -p /temp/dev
-COPY package.json bun.lock /temp/dev/
-RUN cd /temp/dev && bun install --frozen-lockfile
+WORKDIR /app
 
-# install with --production (exclude devDependencies)
-RUN mkdir -p /temp/prod
-COPY package.json bun.lock /temp/prod/
-RUN cd /temp/prod && bun install --frozen-lockfile --production
+COPY package.json ./
+RUN bun install
 
-# copy node_modules from temp directory
-# then copy all (non-ignored) project files into the image
-FROM base AS prerelease
-COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
-
-# [optional] tests & build
-ENV NODE_ENV=production
-# RUN bun run build    ---- НУЖНО СНАЧАЛА ИСПРАВИТЬ ВСЕ ОШИБКИ ТИПИЗАЦИИ TS
 RUN bunx --bun vite build
 
-# copy production dependencies and source code into final image
-FROM base AS release
-COPY --from=install /temp/prod/node_modules node_modules
-COPY --from=prerelease /usr/src/app/package.json .
-COPY --from=prerelease /usr/src/app/dist ./dist
+FROM nginx:alpine AS runner
 
-# run the app
-USER bun
-EXPOSE 3000
-CMD ["bunx", "serve", "-s", "dist", "-l", "3000"]
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
