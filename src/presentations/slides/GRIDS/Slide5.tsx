@@ -11,7 +11,7 @@ export const Slide5 = ({ slide }: any) => {
                 <div key={point.fieldId} className={styles.imgItem}>
                   <EditableImage 
                     field={point} 
-                    alt={point.title?.value}
+                    alt={point.value}
                     className={styles.editableImage} 
                   />
                 </div>

@@ -44,9 +44,29 @@ export const useEditableImageField = (
         }, [fieldId]
     );
 
+    const setPexelsImage = useCallback(
+        (pexelsImageId: number) => {
+            setStatus('pending');
+
+            wsManager.send({
+                type: 'EDIT_IMAGE_BY_PEXELS',
+                fieldId,
+                pexelsImageId,
+            });
+
+            window.setTimeout(() => {
+                setStatus((current) =>
+                current === 'pending' ? 'error' : current
+            );
+            }, 3000);
+        },
+        [fieldId]
+    );
+
     return {
         imageUrl,
         setImage,
+        setPexelsImage,
         isPending: status === 'pending',
         hasError: status === 'error',
     }

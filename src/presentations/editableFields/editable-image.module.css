@@ -44,9 +44,111 @@
   background: #F2F4F7;
   cursor: pointer;
   transition: transform 0.15s ease;
+  margin-left: 10px;
 }
 
 .icon {
   width: 24px;
   height: 24px;
+}
+
+.pexelsGrid {
+  top: 100%;
+  left: 0;
+  z-index: 20;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.pexelsImage {
+  width: 110px;
+  height: 90px;
+  object-fit: аuto;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.pexelsImage:hover {
+  outline: 2px solid #428BF9;
+  outline-offset: -2px;
+}
+
+.pexelsModal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 470px;
+  height: 320px;
+  max-width: 90vw;
+  max-height: 80vh;
+
+  background: white;
+  border-radius: 10px;
+
+  padding: 16px;
+  z-index: 10;
+
+  border: 1px solid #e5e5e5;
+}
+
+.pexelsHeader {
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.pexelsHeader input {
+  border: none;
+  background-color: #F6F7F8;
+  border-radius: 8px;
+  padding: 12px 12px;
+  width: 100%;
+  font-size: 14px;
+  font-family: "Neue Sans Regular", sans-serif;
+  color: black;
+}
+
+.loader {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pexelsPagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 16px;
+}
+
+.pexelsButton {
+  padding: 12px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #f2f2f2;
+}
+
+.pexelsButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.pexelsPagination span {
+  font-size: 14px;
+  font-family: "Neue Sans Regular", sans-serif;
+  color: black;
 }

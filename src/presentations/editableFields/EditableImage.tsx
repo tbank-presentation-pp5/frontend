@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { useEditableImageField } from "../../ws/useEditableImageField";
 import styles from './editable-image.module.css'
+import { PexelsModal } from "./PexelsModal";
 
 interface EditableImageProps {
     field: {
@@ -8,7 +10,7 @@ interface EditableImageProps {
             url: string;
         };
     };
-    alt?: string;
+    alt: string;
     className?: string;
 }
 
@@ -18,9 +20,12 @@ export const EditableImage: React.FC<EditableImageProps> = ({
     className,
 }) => {
 
+    const [showPexels, setShowPexels] = useState(false);
+
     const { 
         imageUrl, 
-        setImage, 
+        setImage,
+        setPexelsImage,
         isPending, 
         hasError 
     } = useEditableImageField(
@@ -79,6 +84,24 @@ export const EditableImage: React.FC<EditableImageProps> = ({
                 >
                     <img src='../upload.png' alt="Upload" className={styles.icon}/>
                 </label>
+
+                <button
+                    type='button'
+                    className={styles.editableImageButton}
+                    onClick={() => setShowPexels(true)}>
+                    <img src='../pexels_logo.svg' alt="Upload" className={styles.icon}/>
+                </button>
+
+                {showPexels && (
+                    <PexelsModal
+                        initialQuery={alt}
+                        onClose={() => setShowPexels(false)}
+                        onSelect={(pexelsId) => {
+                            setPexelsImage(pexelsId)
+                            setShowPexels(false)
+                        }}
+                    />
+                )}
             </div>
     </div>
 );
