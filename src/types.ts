@@ -1,6 +1,45 @@
 export type PlanPrompt = {
-  numberOfSlides: number,
+  numberOfSlides: number
   shortDescription: string
+  model?: string
+  modelParams?: Record<string, unknown>
+}
+
+export type AiModelParamValueDto = {
+  name: string
+  defaultValue: unknown
+  possibleValues: string[] | null
+}
+
+export type AiModelDto = {
+  enumName: string
+  modelId: string
+  displayName: string
+  apiStyle: string
+  params: AiModelParamValueDto[]
+}
+
+export type AiModelParamInfoDto = {
+  name: string
+  jsonKey: string
+  description: string
+  type: string
+  min: number | null
+  max: number | null
+  specDefault: unknown
+  possibleValues: string[] | null
+}
+
+export type AiModelsResponseDto = {
+  models: AiModelDto[]
+  paramDefs: AiModelParamInfoDto[]
+}
+
+export type AiImageModelDto = {
+  enumName: string
+  modelId: string
+  displayName: string
+  apiStyle: string
 }
 
 export type Plan = {

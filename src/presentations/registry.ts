@@ -1,4 +1,5 @@
 import { Slide1 } from "./slides/MAIN/Slide1";
+import { Slide2 } from "./slides/SECTION/Slide2";
 import { Slide3 } from "./slides/TEXT_WITH_IMAGE/Slide3";
 import { Slide4 } from "./slides/PROS_AND_CONS/Slide4";
 import { Slide7 } from "./slides/SIX_POINTS/Slide7";
@@ -8,6 +9,9 @@ import { Slide5 } from "./slides/GRIDS/Slide5";
 export const SLIDE_COMPONENTS: Record<string, Record<number, React.FC<any>>> = {
   "MAIN": {
     1: Slide1,
+  },
+  "SECTION": {
+    2: Slide2,
   },
   "TEXT_WITH_IMAGE": {
     3: Slide3,

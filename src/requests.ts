@@ -1,4 +1,4 @@
-import type { Plan, PlanPrompt, PlanSlide, Presentation, Preview } from "./types"
+import type { AiImageModelDto, AiModelsResponseDto, Plan, PlanPrompt, PlanSlide, Presentation, Preview } from "./types"
 
 export async function GeneratePlan(data: PlanPrompt) {
     const response = await fetch(
@@ -52,15 +52,24 @@ export async function UpdatePlan(data: PlanSlide[], id: number) {
     }
 }
 
-export async function GeneratePresentationFromPlan(templatePresentationId: number = 1, planId: number) {
+export async function GeneratePresentationFromPlan(
+    templatePresentationId: number = 1,
+    planId: number,
+    textModel?: string,
+    imageModel?: string,
+    textModelParams?: Record<string, unknown>,
+) {
+    const body: Record<string, unknown> = { templatePresentationId, planId }
+    if (textModel) body.textModel = textModel
+    if (imageModel) body.imageModel = imageModel
+    if (textModelParams && Object.keys(textModelParams).length > 0) body.textModelParams = textModelParams
+
     const response = await fetch(
         `/api/v1/presentations/generate/plan`,
         {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ templatePresentationId, planId })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
         }
     )
 
@@ -85,6 +94,18 @@ export async function GetPresentation(id: number) {
         throw new Error('Что-то пошло не так.')
     }
     return await response.json() as Presentation
+}
+
+export async function GetAiModels() {
+    const response = await fetch(`/api/ai/models`, { headers: { "Content-Type": "application/json" } })
+    if (!response.ok) throw new Error('Что-то пошло не так.')
+    return await response.json() as AiModelsResponseDto
+}
+
+export async function GetAiImageModels() {
+    const response = await fetch(`/api/ai/models/image`, { headers: { "Content-Type": "application/json" } })
+    if (!response.ok) throw new Error('Что-то пошло не так.')
+    return await response.json() as AiImageModelDto[]
 }
 
 export async function GetPreviews(pageNumber: number, pageSize: number) {

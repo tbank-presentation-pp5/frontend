@@ -5,7 +5,8 @@ import { useFieldArray, useForm } from "react-hook-form"
 import { GeneratePresentationFromPlan, GetPlan, UpdatePlan } from "../requests"
 import styles from "./planpage.module.css"
 import type { Plan, PlanSlide } from "../types"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { ModelSelector, type ModelSelectorValue } from "../components/ModelSelector"
 import debounce from "debounce"
 import { DotLoader } from "react-spinners"
 import { CSS } from '@dnd-kit/utilities';
@@ -33,12 +34,24 @@ function PlanPage() {
     const pointId = Number(planId.id)
     const navigate = useNavigate()
 
+    const modelSelectionRef = useRef<ModelSelectorValue>({
+        textModel: "",
+        imageModel: "",
+        modelParams: {},
+    })
+
     const generatePres = useMutation({
         mutationFn: async ({ template, pointId }: { template: number, pointId: number }) => {
-            return await GeneratePresentationFromPlan(template, pointId)
+            const { textModel, imageModel, modelParams } = modelSelectionRef.current
+            return await GeneratePresentationFromPlan(
+                template,
+                pointId,
+                textModel || undefined,
+                imageModel || undefined,
+                Object.keys(modelParams).length > 0 ? modelParams : undefined,
+            )
         },
         onSuccess: (data) => {
-            console.log("План создан успешно")
             navigate(`/presentations/${data.presentationId}`)
         },
     })
@@ -70,7 +83,13 @@ function PlanPage() {
                 </div>
             </div>
             <div className={styles.submitButton}>
-                <button className="button-yellow" onClick={() => generatePres.mutate({ template: 1, pointId })}>Сгенерировать</button>
+                <ModelSelector
+                    showImageModel={true}
+                    onChange={val => { modelSelectionRef.current = val }}
+                />
+                <button className="button-yellow" onClick={() => generatePres.mutate({ template: 1, pointId })}>
+                    Сгенерировать
+                </button>
             </div>
         </>
     )

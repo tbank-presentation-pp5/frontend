@@ -1,0 +1,50 @@
+.sectionSlide {
+    width: 1104px;
+    height: 621px;
+    border-radius: 8px;
+    display: flex;
+    background-color: #222424;
+    overflow: hidden;
+}
+
+.sectionLeft {
+    width: 290px;
+    height: 100%;
+    background-color: #333333;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 80px;
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.logo {
+    flex-shrink: 0;
+}
+
+.sectionRight {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+    box-sizing: border-box;
+}
+
+.sectionRight > div {
+    width: 100%;
+}
+
+.sectionTitle {
+    color: #FFFFFF;
+    font-family: 'Tinkoff Sans Bold', sans-serif;
+    font-size: 44px;
+    width: 100%;
+    line-height: 1.2;
+    letter-spacing: 0.015em;
+    field-sizing: content;
+    min-height: 1.2em;
+}
