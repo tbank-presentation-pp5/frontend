@@ -9,6 +9,61 @@ import { useState } from "react"
 
 const PAGE_SIZE = 16
 
+interface CardProps {
+    presentationId: number
+    name: string
+    updatedAt: number
+    previewUrls: string[]
+}
+
+function PreviewCard({ presentationId, name, updatedAt, previewUrls }: CardProps) {
+    const [activeIndex, setActiveIndex] = useState<number | null>(null)
+
+    const slides = [...previewUrls].reverse()
+    const displayUrl = slides[activeIndex ?? 0] ?? null
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect()
+        const x = e.clientX - rect.left
+        const idx = Math.min(
+            Math.floor((x / rect.width) * slides.length),
+            slides.length - 1
+        )
+        setActiveIndex(idx)
+    }
+
+    const handleMouseLeave = () => setActiveIndex(null)
+
+    return (
+        <Link className={styles.card} to={`/presentations/${presentationId}`}>
+            <div
+                className={styles.cardImgWrap}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+            >
+                {displayUrl
+                    ? <img src={displayUrl} className={styles.cardImg} alt={name} />
+                    : <div className={styles.cardImgPlaceholder} />}
+
+                {slides.length > 1 && (
+                    <div className={styles.cardIndicator}>
+                        {slides.map((_, i) => (
+                            <div
+                                key={i}
+                                className={`${styles.cardIndicatorSegment} ${
+                                    (activeIndex ?? 0) === i ? styles.cardIndicatorSegmentActive : ""
+                                }`}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
+            <span className={styles.text}>{name}</span>
+            <span className={styles.lastUpdated}>Обновлено: {new Date(updatedAt * 1000).toLocaleString('ru-RU')}</span>
+        </Link>
+    )
+}
+
 function MyProjects() {
     const [page, setPage] = useState(0)
 
@@ -35,15 +90,13 @@ function MyProjects() {
                     <>
                         <div className={styles.cardsContainer}>
                             {data?.elements.map((item) => (
-                                <Link key={item.presentationId} className={styles.card} to={`/presentations/${item.presentationId}`}>
-                                    <div>
-                                        {item.previewUrls?.length > 0
-                                            ? <img src={item.previewUrls[item.previewUrls.length - 1]} className={styles.cardImg} />
-                                            : <div className={styles.cardImgPlaceholder} />}
-                                    </div>
-                                    <span className={styles.text}>{item.name}</span>
-                                    <span className={styles.lastUpdated}>Обновлено: {new Date(item.updatedAt * 1000).toLocaleString('ru-RU')}</span>
-                                </Link>
+                                <PreviewCard
+                                    key={item.presentationId}
+                                    presentationId={item.presentationId}
+                                    name={item.name}
+                                    updatedAt={item.updatedAt}
+                                    previewUrls={item.previewUrls}
+                                />
                             ))}
                         </div>
 

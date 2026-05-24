@@ -76,10 +76,48 @@
   margin-bottom: 0;
 }
 
-.img {
+.imgWrap {
+  position: relative;
   height: 140px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
+  overflow: hidden;
+}
+
+.img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  display: block;
+}
+
+.cardIndicator {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  gap: 3px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.imgWrap:hover .cardIndicator {
+  opacity: 1;
+}
+
+.cardIndicatorSegment {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.45);
+  transition: background 0.1s;
+}
+
+.cardIndicatorSegmentActive {
+  background: rgba(255, 255, 255, 0.95);
 }
 
 .lastSlideItem > p {
