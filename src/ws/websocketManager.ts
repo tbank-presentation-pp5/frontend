@@ -22,8 +22,8 @@ class WebSocketManager {
       this.ws.close();
     }
 
-    const url =
-      `wss://magic.yakovlev05.ru/ws/presentation/changes?presentationId=${presentationId}`;
+    const base = import.meta.env.VITE_WS_BASE_URL as string;
+    const url = `${base}/ws/presentation/changes?presentationId=${presentationId}`;
 
     console.log("WS connecting:", url);
 
