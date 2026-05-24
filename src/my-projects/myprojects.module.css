@@ -65,3 +65,45 @@
   align-items: center;
   min-height: 200px;
 }
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pageBtn {
+  all: unset;
+  min-width: 36px;
+  height: 36px;
+  padding-inline: 10px;
+  border-radius: 8px;
+  background: #F2F4F7;
+  font-family: "Neue Sans Regular", sans-serif;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  box-sizing: border-box;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background: #E2E4E7;
+}
+
+.pageBtn:disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.pageBtnActive {
+  background: #333333;
+  color: #ffffff;
+}
+
+.pageBtnActive:hover:not(:disabled) {
+  background: #333333;
+}

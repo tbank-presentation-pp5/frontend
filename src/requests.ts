@@ -108,6 +108,23 @@ export async function GetAiImageModels() {
     return await response.json() as AiImageModelDto[]
 }
 
+export type AiImageGenerateRequest = {
+    prompt: string
+    model: string
+    width: number
+    height: number
+}
+
+export async function GenerateAiImage(data: AiImageGenerateRequest): Promise<{ url: string }> {
+    const response = await fetch('/api/ai/models/image/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
+    if (!response.ok) throw new Error('Ошибка генерации изображения')
+    return response.json()
+}
+
 export async function GetPreviews(pageNumber: number, pageSize: number) {
     const response = await fetch(
         `/api/v1/presentations/previews?pageNumber=${pageNumber}&pageSize=${pageSize}`,

@@ -34,8 +34,8 @@ function App() {
         {!isLoading && !data?.elements?.length && <p>Здесь будут отображаться презентации над которыми вы работали ранее</p>}
         <div className={styles.lastSlides}>
           {data?.elements.map((item) => {
-            const firstPreview = item.previewUrls.length > 0 ? item.previewUrls[0] : undefined
-            const formattedDate = item.updatedAt ? new Date(item.updatedAt).toLocaleString('ru-RU') : '—'
+            const firstPreview = item.previewUrls.length > 0 ? item.previewUrls[item.previewUrls.length - 1] : undefined
+            const formattedDate = item.updatedAt ? new Date(item.updatedAt * 1000).toLocaleString('ru-RU') : '—'
 
             return (
               <Link key={item.presentationId} className={styles.lastSlideItem} to={`/presentations/${item.presentationId}`}>

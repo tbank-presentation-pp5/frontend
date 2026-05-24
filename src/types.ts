@@ -67,10 +67,10 @@ export type Preview = {
     {
       presentationId: number,
       name: string,
-      updatedAt: string,
+      updatedAt: number,
       previewUrls: string[]
     }[],
-  totalElements: number
+  totalElements: number // total pages
 }
 
 export type Slide = {

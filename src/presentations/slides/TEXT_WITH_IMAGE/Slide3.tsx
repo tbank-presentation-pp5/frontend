@@ -19,7 +19,7 @@ export const Slide3 = ({ slide }: any) => {
                 {fields.image?.image?.url && (
                     <EditableImage
                         field={fields.image}
-                        alt={fields.title?.value}
+                        alt={fields.image?.value}
                         className={styles.image}
                     />
                 )}
