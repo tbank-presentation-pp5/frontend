@@ -19,7 +19,7 @@ interface LandingCardProps {
 function LandingPreviewCard({ presentationId, name, updatedAt, previewUrls }: LandingCardProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
-  const slides = [...previewUrls].reverse()
+  const slides = previewUrls.filter(Boolean).reverse()
   const displayUrl = slides[activeIndex ?? 0] ?? null
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {

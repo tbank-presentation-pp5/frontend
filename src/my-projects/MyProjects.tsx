@@ -19,7 +19,7 @@ interface CardProps {
 function PreviewCard({ presentationId, name, updatedAt, previewUrls }: CardProps) {
     const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
-    const slides = [...previewUrls].reverse()
+    const slides = previewUrls.filter(Boolean).reverse()
     const displayUrl = slides[activeIndex ?? 0] ?? null
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
