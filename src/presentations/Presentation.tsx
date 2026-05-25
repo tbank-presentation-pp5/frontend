@@ -9,6 +9,13 @@ import { ExportDropdown } from "./ExportDropdown";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useEffect } from "react";
 import { wsManager } from "../ws/websocketManager";
+import { SlideScaler } from "./SlideScaler";
+
+// All slides render as 1104×621 px in the browser.
+// The "1020×557" slides use padding: 32px 42px without box-sizing:border-box,
+// so their actual box size is 1020+84 = 1104 × 557+64 = 621.
+const SLIDE_W = 1104;
+const SLIDE_H = 621;
 
 
 function Presentation() {
@@ -60,12 +67,14 @@ function Presentation() {
                         return (
                             <div key={slide.slideId} className={styles.slideWrapper}>
                                 {Component ? (
-                                    <Component
-                                        slide={slide}
-                                        createdAt={data.createdAt}
-                                        styles={styles}
-                                        isViewer={false}
-                                    />
+                                    <SlideScaler slideWidth={SLIDE_W} slideHeight={SLIDE_H}>
+                                        <Component
+                                            slide={slide}
+                                            createdAt={data.createdAt}
+                                            styles={styles}
+                                            isViewer={false}
+                                        />
+                                    </SlideScaler>
                                 ) : (
                                     <div className={styles.errorBanner}>
                                         Шаблон {slide.templateSlideId} ({slide.type}) еще не готов.

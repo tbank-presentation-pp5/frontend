@@ -1,10 +1,10 @@
 import styles from './landing.module.css'
-import { Link } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 import Header from '../ui/header/Header'
 import { Helmet } from "react-helmet"
 import { useQuery } from '@tanstack/react-query'
 import { GetPreviews } from '../requests'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 const DEFAULT_PAGE_SIZE = 4
 const DEFAULT_PAGE_NUMBER = 0
@@ -18,47 +18,81 @@ interface LandingCardProps {
 
 function LandingPreviewCard({ presentationId, name, updatedAt, previewUrls }: LandingCardProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const navigate = useNavigate()
+  const touchStartX = useRef(0)
+  const touchStartY = useRef(0)
+  const didSwipe = useRef(false)
 
-  const slides = previewUrls.filter(Boolean).reverse()
-  const displayUrl = slides[activeIndex ?? 0] ?? null
+  const slides = previewUrls.filter(Boolean)
+  const currentIndex = activeIndex ?? 0
+  const displayUrl = slides[currentIndex] ?? null
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.clientX - rect.left
-    const idx = Math.min(
-      Math.floor((x / rect.width) * slides.length),
-      slides.length - 1
-    )
-    setActiveIndex(idx)
+    setActiveIndex(Math.min(Math.floor((x / rect.width) * slides.length), slides.length - 1))
   }
-
   const handleMouseLeave = () => setActiveIndex(null)
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+    touchStartY.current = e.touches[0].clientY
+    didSwipe.current = false
+  }
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    const dy = e.changedTouches[0].clientY - touchStartY.current
+    if (Math.abs(dx) > 35 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      didSwipe.current = true
+      dx < 0
+        ? setActiveIndex(Math.min(currentIndex + 1, slides.length - 1))
+        : setActiveIndex(Math.max(currentIndex - 1, 0))
+    }
+  }
+
+  const prevSlide = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveIndex(Math.max(currentIndex - 1, 0))
+  }
+  const nextSlide = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setActiveIndex(Math.min(currentIndex + 1, slides.length - 1))
+  }
+
+  const handleCardClick = () => {
+    if (!didSwipe.current) navigate(`/presentations/${presentationId}`)
+    didSwipe.current = false
+  }
+
   return (
-    <Link key={presentationId} className={styles.lastSlideItem} to={`/presentations/${presentationId}`}>
+    <div className={styles.lastSlideItem} onClick={handleCardClick}>
       <div
         className={styles.imgWrap}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         {displayUrl && <img src={displayUrl} className={styles.img} alt={name} />}
 
         {slides.length > 1 && (
-          <div className={styles.cardIndicator}>
-            {slides.map((_, i) => (
-              <div
-                key={i}
-                className={`${styles.cardIndicatorSegment} ${
-                  (activeIndex ?? 0) === i ? styles.cardIndicatorSegmentActive : ""
-                }`}
-              />
-            ))}
-          </div>
+          <>
+            <button className={`${styles.cardNavBtn} ${styles.cardNavBtnPrev}`} onClick={prevSlide} disabled={currentIndex === 0}>‹</button>
+            <button className={`${styles.cardNavBtn} ${styles.cardNavBtnNext}`} onClick={nextSlide} disabled={currentIndex === slides.length - 1}>›</button>
+            <div className={styles.cardIndicator}>
+              {slides.map((_, i) => (
+                <div
+                  key={i}
+                  className={`${styles.cardIndicatorSegment} ${currentIndex === i ? styles.cardIndicatorSegmentActive : ""}`}
+                />
+              ))}
+            </div>
+          </>
         )}
       </div>
       <p>{name}</p>
       <span className={styles.lastUpdated}>Обновлено: {new Date(updatedAt * 1000).toLocaleString('ru-RU')}</span>
-    </Link>
+    </div>
   )
 }
 

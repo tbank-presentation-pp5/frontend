@@ -18,7 +18,7 @@ function Generate() {
 
             <div className={styles.cardsContainer}>
                 <Link to="/generate/zero" className={styles.generateCard}>
-                    <img src="./AI.png" />  
+                    <img src="/AI.png" />
                     <h2>Сгенерируйте</h2>
                     <p>Напишите тему презентации, ИИ сделает все остальное</p>
                 </Link>

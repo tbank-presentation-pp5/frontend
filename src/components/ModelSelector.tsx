@@ -316,11 +316,16 @@ export function ModelSelector({ showImageModel = true, direction = "up", onChang
                         <div className={popoverClass}>
                             <div className={styles.popoverHeader}>
                                 Параметры модели
-                                {changedCount > 0 && (
-                                    <button type="button" className={styles.resetBtn} onClick={resetParams}>
-                                        Сбросить
+                                <div className={styles.popoverHeaderActions}>
+                                    {changedCount > 0 && (
+                                        <button type="button" className={styles.resetBtn} onClick={resetParams}>
+                                            Сбросить
+                                        </button>
+                                    )}
+                                    <button type="button" className={styles.popoverCloseBtn} onClick={() => setShowSettings(false)}>
+                                        ✕
                                     </button>
-                                )}
+                                </div>
                             </div>
 
                             {simpleParams.length > 0 && (

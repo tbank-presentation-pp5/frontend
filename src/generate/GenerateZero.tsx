@@ -62,7 +62,7 @@ function Zero() {
             <Helmet><title>Создание по промпту</title></Helmet>
 
             <div className={styles.flex}>
-                <img src="/public/AI.png" />
+                <img src="/AI.png" />
                 <h1>Генерируем</h1>
             </div>
             <p>О чем будет ваша презентация?</p>

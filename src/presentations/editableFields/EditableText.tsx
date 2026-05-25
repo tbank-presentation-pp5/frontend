@@ -1,5 +1,6 @@
 import React from "react";
 import { useEditableTextField } from "../../ws/useEditableTextField";
+import { useIsViewer } from "./ViewerContext";
 
 interface EditableTextProps {
   field: {
@@ -9,31 +10,33 @@ interface EditableTextProps {
   className?: string;
 }
 
-export const EditableText: React.FC<EditableTextProps> = ({
-  field,
-  className,
-}) => {
+const EditableTextEditor: React.FC<EditableTextProps> = ({ field, className }) => {
   const { value, setValue, hasError } = useEditableTextField(field.fieldId, field.value);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setValue(event.target.value);
-  };
-
   return (
-    <div 
-    {...hasError && { style: { color: "red" } }}>
+    <div {...hasError && { style: { color: "red" } }}>
       <textarea
         value={value}
-        onChange={handleChange}
+        onChange={e => setValue(e.target.value)}
         className={className}
         style={{
           backgroundColor: "transparent",
-          border: 'none',
+          border: "none",
           resize: "none",
           scrollbarWidth: "none",
           padding: 0,
         }}
-    />
+      />
     </div>
   );
+};
+
+export const EditableText: React.FC<EditableTextProps> = ({ field, className }) => {
+  const isViewer = useIsViewer();
+
+  if (isViewer) {
+    return <div className={className}>{field.value}</div>;
+  }
+
+  return <EditableTextEditor field={field} className={className} />;
 };

@@ -1,11 +1,20 @@
 .presentation {
     display: flex;
     flex-direction: column;
-    width: 1104px;
+    width: min(1104px, 92%);
     margin-inline: auto;
     gap: 24px;
     margin-bottom: 100px;
     margin-top: 64px;
+}
+
+@media (max-width: 640px) {
+    .presentation {
+        width: 96%;
+        gap: 16px;
+        margin-top: 32px;
+        margin-bottom: 80px;
+    }
 }
 
 .sectionSlide {
@@ -42,25 +51,50 @@
 }
 
 .headerCont {
-    height: 64px;
+    min-height: 64px;
     background-color: #FFFFFF;
+    border-bottom: 1px solid #F2F4F7;
 }
 
 .header {
     display: flex;
     max-width: 1104px;
+    width: 92%;
     font-family: "Neue Sans Regular", sans-serif;
-    font-weight: 13px;
-    max-height: 48.5px;
+    font-size: 13px;
     margin-inline: auto;
-    padding-block: 8px;
+    padding-block: 10px;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    box-sizing: border-box;
 }
 
 .headerdiv {
     display: flex;
-    gap: 12px;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+    .header {
+        width: 96%;
+        padding-block: 8px;
+        gap: 6px;
+    }
+
+    .headerdiv {
+        gap: 6px;
+        width: 100%;
+    }
+
+    /* Shrink button text on very small screens */
+    .headerdiv a,
+    .headerdiv button {
+        font-size: 12px !important;
+        padding: 10px 10px !important;
+    }
 }
 
 .loader {

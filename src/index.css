@@ -85,6 +85,16 @@ h3 {
   margin-top: 0;
 }
 
+@media (max-width: 768px) {
+  h1 { font-size: 32px; }
+  h2 { font-size: 20px; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 26px; }
+  h2 { font-size: 18px; }
+}
+
 img {
   width: fit-content;
   height: fit-content;
@@ -102,6 +112,7 @@ img {
   border-radius: 12px;
   cursor: pointer;
   margin: 0;
+  white-space: nowrap;
 }
 
 .button-yellow:hover {
@@ -124,6 +135,16 @@ img {
   border: none;
   border-radius: 12px;
   cursor: pointer;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .button-yellow,
+  .button-white {
+    font-size: 13px;
+    padding: 12px 12px;
+    border-radius: 10px;
+  }
 }
 
 .button-white:hover {
