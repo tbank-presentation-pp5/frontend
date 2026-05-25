@@ -13,6 +13,10 @@ import { CSS } from '@dnd-kit/utilities';
 import {
     DndContext,
     type DragEndEvent,
+    MouseSensor,
+    TouchSensor,
+    useSensor,
+    useSensors,
 } from "@dnd-kit/core"
 import {
     SortableContext,
@@ -99,6 +103,16 @@ function ChangePlan(data: Plan) {
     const { control, subscribe, register } = useForm({ defaultValues: { fields: data.plan } })
     const [isDraggingEnabled, setIsDraggingEnabled] = useState(false)
 
+    const sensors = useSensors(
+        useSensor(MouseSensor),
+        useSensor(TouchSensor, {
+            activationConstraint: {
+                delay: 200,
+                tolerance: 8,
+            },
+        }),
+    )
+
     const { fields, remove, append, move } = useFieldArray({
         control,
         name: "fields"
@@ -163,7 +177,7 @@ function ChangePlan(data: Plan) {
             >
                 {isDraggingEnabled ? "Редактировать текст" : "Редактировать порядок"}
             </button>
-            <DndContext onDragEnd={handleDragEnd}>
+            <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
                 <ul className={styles.planlist}>
                     <SortableContext
                         items={fields.map(f => f.id)}
