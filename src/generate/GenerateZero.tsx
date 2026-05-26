@@ -3,18 +3,20 @@ import { useMutation } from "@tanstack/react-query"
 import { useNavigate } from "react-router"
 import { Helmet } from "react-helmet"
 import { FadeLoader } from "react-spinners"
-import type { PlanPrompt } from "../types"
-import { GeneratePlan } from "../requests"
+import type { NotePrompt, PlanPrompt } from "../types"
+import { GenerateFromNote, GeneratePlan } from "../requests"
 import { ModelSelector, type ModelSelectorValue } from "../components/ModelSelector"
 import styles from "./generate.module.css"
+
+type Mode = "plan" | "note"
 
 function Zero() {
     const navigate = useNavigate()
 
+    const [mode, setMode] = useState<Mode>("plan")
     const [description, setDescription] = useState("")
     const [numberOfSlides, setNumberOfSlides] = useState(10)
 
-    // Хранится в ref — обновляется ModelSelector без ре-рендера формы
     const modelSelectionRef = useRef<ModelSelectorValue>({
         textModel: "",
         imageModel: "",
@@ -30,20 +32,37 @@ function Zero() {
         ta.style.height = `${ta.scrollHeight}px`
     }, [description])
 
-    const mutation = useMutation({
+    const planMutation = useMutation({
         mutationFn: (data: PlanPrompt) => GeneratePlan(data),
-        onSuccess: data => {
-            navigate(`/plans/${data.id}`)
-        },
+        onSuccess: data => navigate(`/plans/${data.id}`),
     })
 
+    const noteMutation = useMutation({
+        mutationFn: (data: NotePrompt) => GenerateFromNote(data),
+        onSuccess: data => navigate(`/presentations/${data.presentationId}`),
+    })
+
+    const isPending = planMutation.isPending || noteMutation.isPending
+    const isError = planMutation.isError || noteMutation.isError
+    const errorMessage = planMutation.error?.message ?? noteMutation.error?.message
+
     const handleSubmit = () => {
-        if (!description.trim() || mutation.isPending) return
-        const { textModel, modelParams } = modelSelectionRef.current
-        const payload: PlanPrompt = { shortDescription: description, numberOfSlides }
-        if (textModel) payload.model = textModel
-        if (Object.keys(modelParams).length > 0) payload.modelParams = modelParams
-        mutation.mutate(payload)
+        if (!description.trim() || isPending) return
+        const { textModel, imageModel, modelParams } = modelSelectionRef.current
+        const params = Object.keys(modelParams).length > 0 ? modelParams : undefined
+
+        if (mode === "plan") {
+            const payload: PlanPrompt = { shortDescription: description, numberOfSlides }
+            if (textModel) payload.model = textModel
+            if (params) payload.modelParams = params
+            planMutation.mutate(payload)
+        } else {
+            const payload: NotePrompt = { note: description, numberOfSlides, templatePresentationId: 1 }
+            if (textModel) payload.textModel = textModel
+            if (imageModel) payload.imageModel = imageModel
+            if (params) payload.textModelParams = params
+            noteMutation.mutate(payload)
+        }
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -53,7 +72,7 @@ function Zero() {
         }
     }
 
-    if (mutation.isPending) {
+    if (isPending) {
         return <div className={styles.loader}><FadeLoader color="#6F7071" /></div>
     }
 
@@ -68,6 +87,25 @@ function Zero() {
             <p>О чем будет ваша презентация?</p>
 
             <form className={styles.promptForm} onSubmit={e => { e.preventDefault(); handleSubmit() }}>
+
+                {/* Mode switcher */}
+                <div className={styles.segmented} style={{ alignSelf: 'flex-start' }}>
+                    <button
+                        type="button"
+                        className={`${styles.segBtn} ${mode === "plan" ? styles.segBtnActive : ""}`}
+                        onClick={() => setMode("plan")}
+                    >
+                        По плану
+                    </button>
+                    <button
+                        type="button"
+                        className={`${styles.segBtn} ${mode === "note" ? styles.segBtnActive : ""}`}
+                        onClick={() => setMode("note")}
+                    >
+                        По тексту
+                    </button>
+                </div>
+
                 <div className={styles.flex}>
                     <span>Cлайдов:</span>
                     <input
@@ -84,7 +122,7 @@ function Zero() {
                     <textarea
                         ref={textareaRef}
                         className={styles.promptTextarea}
-                        placeholder="Опишите презентацию..."
+                        placeholder={mode === "plan" ? "Опишите тему презентации..." : "Вставьте текст или заметки..."}
                         value={description}
                         onChange={e => setDescription(e.target.value)}
                         onKeyDown={handleKeyDown}
@@ -98,12 +136,12 @@ function Zero() {
                 </div>
 
                 <ModelSelector
-                    showImageModel={false}
+                    showImageModel={mode === "note"}
                     direction="down"
                     onChange={val => { modelSelectionRef.current = val }}
                 />
 
-                {mutation.isError && <span>{mutation.error.message}</span>}
+                {isError && <span>{errorMessage}</span>}
             </form>
         </div>
     )

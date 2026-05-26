@@ -5,6 +5,15 @@ export type PlanPrompt = {
   modelParams?: Record<string, unknown>
 }
 
+export type NotePrompt = {
+  note: string
+  numberOfSlides: number
+  templatePresentationId?: number
+  textModel?: string
+  imageModel?: string
+  textModelParams?: Record<string, unknown>
+}
+
 export type AiModelParamValueDto = {
   name: string
   defaultValue: unknown

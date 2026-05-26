@@ -1,4 +1,4 @@
-import type { AiImageModelDto, AiModelsResponseDto, Plan, PlanPrompt, PlanSlide, Presentation, Preview } from "./types"
+import type { AiImageModelDto, AiModelsResponseDto, NotePrompt, Plan, PlanPrompt, PlanSlide, Presentation, Preview } from "./types"
 
 export async function GeneratePlan(data: PlanPrompt) {
     const response = await fetch(
@@ -76,6 +76,16 @@ export async function GeneratePresentationFromPlan(
     if (!response.ok) {
         throw new Error('Что-то пошло не так.')
     }
+    return await response.json() as Presentation
+}
+
+export async function GenerateFromNote(data: NotePrompt) {
+    const response = await fetch('/api/v1/presentations/generate/note', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
+    if (!response.ok) throw new Error('Что-то пошло не так.')
     return await response.json() as Presentation
 }
 
